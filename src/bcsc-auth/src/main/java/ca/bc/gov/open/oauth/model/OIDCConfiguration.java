@@ -6,7 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
- * OIDC Configuration - Used for serializing https://[myOauthServer]/.well-known/openid-configuration response. 
+ * OIDC Configuration - Used for serializing
+ * https://[myOauthServer]/.well-known/openid-configuration response.
  * 
  * @author shaunmillargov
  *
@@ -238,4 +239,3 @@ public class OIDCConfiguration {
 	}
 
 }
-

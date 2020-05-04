@@ -1,6 +1,5 @@
 package ca.bc.gov.open.oauth.service;
 
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -37,7 +36,6 @@ import com.nimbusds.openid.connect.sdk.UserInfoResponse;
 import ca.bc.gov.open.oauth.configuration.OauthProperties;
 import ca.bc.gov.open.oauth.exception.OauthServiceException;
 
-
 /**
  *
  * Oauth API Services Implementation class.
@@ -56,9 +54,9 @@ public class OauthServicesImpl implements OauthServices {
 	private final Logger logger = LoggerFactory.getLogger(OauthServicesImpl.class);
 
 	public URI getIDPRedirect(String returnUrl) throws URISyntaxException {
-		
+
 		logger.debug("Calling getIDPRedirect");
-		
+
 		// The authorisation endpoint of IDP the server
 		URI authzEndpoint = new URI(oauthProps.getIdp() + oauthProps.getAuthorizePath());
 
@@ -66,62 +64,60 @@ public class OauthServicesImpl implements OauthServices {
 		ClientID clientID = new ClientID(oauthProps.getClientId());
 
 		// The requested scope values for the token
-		Scope scope = new Scope(oauthProps.getScope());
+		Scope scope = new Scope(System.getenv().get(oauthProps.getClientId() + "_OAUTH_SCOPE"));
 
 		// The client callback URI, typically pre-registered with the server
-		URI callback = new URI((returnUrl != null) ? returnUrl : oauthProps.getReturnUri());
+		URI callback = new URI(
+				(returnUrl != null) ? returnUrl : System.getenv().get(oauthProps.getClientId() + "_OAUTH_RETURN_URI"));
 
 		// Generate random state string for pairing the response to the request
 		State state = new State();
 
 		// Build the request
-		AuthorizationRequest request = new AuthorizationRequest.Builder(
-		    new ResponseType(ResponseType.Value.CODE), clientID)
-		    .scope(scope)
-		    .state(state)
-		    .redirectionURI(callback)
-		    .endpointURI(authzEndpoint)
-		    .build();
+		AuthorizationRequest request = new AuthorizationRequest.Builder(new ResponseType(ResponseType.Value.CODE),
+				clientID).scope(scope).state(state).redirectionURI(callback).endpointURI(authzEndpoint).build();
 
 		// Use this URI to send the end-user's browser to the server
-		return request.toURI();	
-			
+		return request.toURI();
+
 	}
 
 	public AccessTokenResponse getToken(String authCode, String returnUrl) throws OauthServiceException {
-		
+
 		logger.debug("Calling getToken");
-		
+
 		AuthorizationCode code = new AuthorizationCode(authCode);
 		try {
-			
-			URI callback = new URI((returnUrl != null) ? returnUrl : oauthProps.getReturnUri());
-			
+
+			URI callback = new URI((returnUrl != null) ? returnUrl
+					: System.getenv().get(oauthProps.getClientId() + "_OAUTH_RETURN_URI"));
+
 			// The credentials to authenticate the client at the token endpoint
 			ClientID clientID = new ClientID(oauthProps.getClientId());
-			Secret clientSecret = new Secret(oauthProps.getSecret());
+			Secret clientSecret = new Secret(System.getenv().get(oauthProps.getClientId() + "_OAUTH_SECRET"));
 			ClientAuthentication clientAuth = new ClientSecretBasic(clientID, clientSecret);
-			
+
 			AuthorizationGrant codeGrant = new AuthorizationCodeGrant(code, callback);
-			
+
 			// The IDP token endpoint
 			URI tokenEndpoint = new URI(oauthProps.getIdp() + oauthProps.getTokenPath());
-			
-			//authorization_code == grant_type
+
+			// authorization_code == grant_type
 
 			// Make the token request
 			TokenRequest request = new TokenRequest(tokenEndpoint, clientAuth, codeGrant);
-			
+
 			TokenResponse response = TokenResponse.parse(request.toHTTPRequest().send());
 
 			if (!response.indicatesSuccess()) {
-			    TokenErrorResponse errorResponse = response.toErrorResponse();
-				throw new OauthServiceException("Token Error Response from IdP server: " + errorResponse.toJSONObject().toJSONString());
+				TokenErrorResponse errorResponse = response.toErrorResponse();
+				throw new OauthServiceException(
+						"Token Error Response from IdP server: " + errorResponse.toJSONObject().toJSONString());
 			}
 
 			// Respond with the complete token returned from the IdP.
 			return response.toSuccessResponse();
-			
+
 		} catch (URISyntaxException e) {
 			throw new OauthServiceException(e.getMessage(), e);
 		} catch (ParseException e) {
@@ -129,11 +125,11 @@ public class OauthServicesImpl implements OauthServices {
 		} catch (IOException e) {
 			throw new OauthServiceException("Error comunicating with IdP server", e);
 		}
-		
+
 	}
 
 	public JSONObject getUserInfo(BearerAccessToken accessToken) throws OauthServiceException {
-	
+
 		try {
 
 			// Build the IdP endpoint for user info data

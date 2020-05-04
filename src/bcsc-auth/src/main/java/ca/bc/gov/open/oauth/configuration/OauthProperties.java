@@ -19,10 +19,6 @@ public class OauthProperties {
 	// OAUTH Properties
 	private String idp;
 	private String clientId;
-	private String secret;
-	private String scope;
-	private String returnUri;
-	private int jwtExpiry;
 	private String tokenPath;
 	private String userinfoPath;
 	private String authorizePath;
@@ -33,8 +29,11 @@ public class OauthProperties {
 	// JWT properties
 	private String jwtSecret;
 	private String jwtAuthorizedRole;
-	
-	//Basic Authentication
+	private int jwtExpiry;
+	private String jwtHeader;
+	private String jwtPrefix;
+
+	// Basic Authentication
 	private String username;
 	private String password;
 
@@ -60,30 +59,6 @@ public class OauthProperties {
 
 	public void setClientId(String clientId) {
 		this.clientId = clientId;
-	}
-
-	public String getSecret() {
-		return secret;
-	}
-
-	public void setSecret(String secret) {
-		this.secret = secret;
-	}
-
-	public String getScope() {
-		return scope;
-	}
-
-	public void setScope(String scope) {
-		this.scope = scope;
-	}
-
-	public String getReturnUri() {
-		return returnUri;
-	}
-
-	public void setReturnUri(String returnUri) {
-		this.returnUri = returnUri;
 	}
 
 	public int getJwtExpiry() {
@@ -156,6 +131,22 @@ public class OauthProperties {
 
 	public void setJwtAuthorizedRole(String jwtAuthorizedRole) {
 		this.jwtAuthorizedRole = jwtAuthorizedRole;
+	}
+
+	public String getJwtHeader() {
+		return jwtHeader;
+	}
+
+	public void setJwtHeader(String jwtHeader) {
+		this.jwtHeader = jwtHeader;
+	}
+
+	public String getJwtPrefix() {
+		return jwtPrefix;
+	}
+
+	public void setJwtPrefix(String jwtPrefix) {
+		this.jwtPrefix = jwtPrefix;
 	}
 
 	public String getUsername() {

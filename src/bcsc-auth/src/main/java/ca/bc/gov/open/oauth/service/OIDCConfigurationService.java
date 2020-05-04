@@ -16,11 +16,10 @@ import org.springframework.web.client.RestTemplate;
 import ca.bc.gov.open.oauth.configuration.OauthProperties;
 import ca.bc.gov.open.oauth.model.OIDCConfiguration;
 
-
 /**
  * 
- * Service Returns a JAVA object which represents OpenID Connect configuration values from the provider's 
- * Well-Known Configuration Endpoint. 
+ * Service Returns a JAVA object which represents OpenID Connect configuration
+ * values from the provider's Well-Known Configuration Endpoint.
  * 
  * @author shaunmillargov
  *
@@ -29,31 +28,31 @@ import ca.bc.gov.open.oauth.model.OIDCConfiguration;
 @Configuration
 @EnableConfigurationProperties(OauthProperties.class)
 public class OIDCConfigurationService {
-	
+
 	private Logger logger = LoggerFactory.getLogger(OIDCConfigurationService.class);
-	
-	private OIDCConfiguration config = null; 
-	
+
+	private OIDCConfiguration config = null;
+
 	@Autowired
 	private OauthProperties oauthProps;
-	
+
 	/**
 	 * 
-	 * Loads the OIDC Well-known config endpoint if not already loaded. 
+	 * Loads the OIDC Well-known config endpoint if not already loaded.
 	 * 
 	 * @return
 	 */
-    public OIDCConfiguration getConfig() {
-        if ( null == config ) 
-        	loadConfig();
-        return config;
-    }
+	public OIDCConfiguration getConfig() {
+		if (null == config)
+			loadConfig();
+		return config;
+	}
 
-    /**
-     * 
-     * Loads config object. 
-     * 
-     */
+	/**
+	 * 
+	 * Loads config object.
+	 * 
+	 */
 	private void loadConfig() {
 		RestTemplate restTemplate = new RestTemplate(getClientHttpRequestFactory());
 		URI uri = null;
@@ -61,16 +60,16 @@ public class OIDCConfigurationService {
 			uri = new URI(oauthProps.getWellKnown());
 			config = restTemplate.getForObject(uri, OIDCConfiguration.class);
 		} catch (URISyntaxException e2) {
-			logger.error("Unable to load remote server well-known configuration endpoint. Check Oauth2 well-known endpoint configuration. ", e2);
+			logger.error(
+					"Unable to load remote server well-known configuration endpoint. Check Oauth2 well-known endpoint configuration. ",
+					e2);
 		}
 	}
 
 	private ClientHttpRequestFactory getClientHttpRequestFactory() {
-		SimpleClientHttpRequestFactory clientHttpRequestFactory
-				= new SimpleClientHttpRequestFactory();
+		SimpleClientHttpRequestFactory clientHttpRequestFactory = new SimpleClientHttpRequestFactory();
 		clientHttpRequestFactory.setConnectTimeout(oauthProps.getBcscTimeout());
 		clientHttpRequestFactory.setReadTimeout(oauthProps.getBcscTimeout());
 		return clientHttpRequestFactory;
 	}
 }
-

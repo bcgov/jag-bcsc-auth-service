@@ -30,9 +30,6 @@ class OauthPropertiesTest {
 		Assert.assertEquals("authorized", oauthProperties.getJwtAuthorizedRole());
 		Assert.assertEquals(3000, oauthProperties.getJwtExpiry());
 		Assert.assertEquals("secret", oauthProperties.getPerSecret());
-		Assert.assertEquals("return", oauthProperties.getReturnUri());
-		Assert.assertEquals("scope", oauthProperties.getScope());
-		Assert.assertEquals("secret", oauthProperties.getSecret());
 		Assert.assertEquals("/token", oauthProperties.getTokenPath());
 		Assert.assertEquals("/userInfo", oauthProperties.getUserinfoPath());
 		Assert.assertEquals("/wellKnown", oauthProperties.getWellKnown());

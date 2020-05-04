@@ -9,6 +9,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import ca.bc.gov.open.oauth.security.JWTAuthorizationFilter;
 
 @EnableWebSecurity
 @Configuration
@@ -19,12 +22,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().anyRequest().authenticated().and().httpBasic();
+		http.csrf().disable()
+				.addFilterAfter(new JWTAuthorizationFilter(oauthProps), UsernamePasswordAuthenticationFilter.class)
+				.authorizeRequests().antMatchers("/actuator/**").permitAll().anyRequest().authenticated().and()
+				.httpBasic();
 	}
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().withUser(oauthProps.getUsername()).password(passwordEncoder().encode(oauthProps.getPassword())).roles("USER");
+		auth.inMemoryAuthentication().withUser(oauthProps.getUsername())
+				.password(passwordEncoder().encode(oauthProps.getPassword())).roles("USER");
 	}
 
 	@Bean

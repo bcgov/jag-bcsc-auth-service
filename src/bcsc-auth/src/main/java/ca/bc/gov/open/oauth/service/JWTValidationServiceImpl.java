@@ -31,9 +31,10 @@ import ca.bc.gov.open.oauth.model.ValidationResponse;
 
 /**
  * 
- * BCSC JWT Token Validation Services.  
+ * BCSC JWT Token Validation Services.
  * 
- * These services are intended for validation of JWT token(s) received from BCSC.
+ * These services are intended for validation of JWT token(s) received from
+ * BCSC.
  * 
  * @author shaunmillargov
  * 
@@ -41,51 +42,50 @@ import ca.bc.gov.open.oauth.model.ValidationResponse;
 @Service
 @Configuration
 @EnableConfigurationProperties(OauthProperties.class)
-public class ECRCJWTValidationServiceImpl implements ECRCJWTValidationService {
-	
-	private static final String[] BCSC_ACCESS_TOKEN_CLAIMS =  {"aud", "iss", "exp", "iat", "jti"}; 
-	private static final String[] BCSC_ID_TOKEN_CLAIMS =  {"sub", "aud", "acr", "kid", "iss", "exp", "iat", "jti"}; 
-	
+public class JWTValidationServiceImpl implements JWTValidationService {
+
+	private static final String[] BCSC_ACCESS_TOKEN_CLAIMS = { "aud", "iss", "exp", "iat", "jti" };
+	private static final String[] BCSC_ID_TOKEN_CLAIMS = { "sub", "aud", "acr", "kid", "iss", "exp", "iat", "jti" };
+
 	@Autowired
 	private OauthProperties oauthProps;
 
 	@Autowired
 	private OIDCConfigurationService oidcConfigService;
-	
-	private Logger logger = LoggerFactory.getLogger(ECRCJWTValidationServiceImpl.class);
-	
+
+	private Logger logger = LoggerFactory.getLogger(JWTValidationServiceImpl.class);
+
 	/**
-	 * Validate BCSC Access Token 
+	 * Validate BCSC Access Token
 	 */
 	@Override
-	public ValidationResponse validateBCSCAccessToken(String token) { 
+	public ValidationResponse validateBCSCAccessToken(String token) {
 		logger.debug("validateBCSCAccessToken called.");
 		return validateBCSCToken(token, BCSC_ACCESS_TOKEN_CLAIMS);
 	}
-	
+
 	/**
-	 * Validate BCSC ID Token 
+	 * Validate BCSC ID Token
 	 */
 	@Override
 	public ValidationResponse validateBCSCIDToken(String token) {
 		logger.debug("validateBCSCIDToken called.");
 		return validateBCSCToken(token, BCSC_ID_TOKEN_CLAIMS);
 	}
-	
-   /**
-	* validateBCSCToken Performs the following checks: 
-	* 
-	*   - Algorithm check -- The JWS algorithm specified in the JWT header is
-	*     checked whether it matches the agreed / expected one. Signature check
-	*   - The digital signature is verified by trying an appropriate public
-	*     key from the server JWK set of the remote server. 
-	*   - JWT claims check -- The JWT claims set is validated, for example to ensure the token is
-	*     not expired and matches the expected issuer, audience and other
-	*     claims. 
-	*     
-	*     Applicable to both access_token and id_token types. 
-	*   
-	**/
+
+	/**
+	 * validateBCSCToken Performs the following checks:
+	 * 
+	 * - Algorithm check -- The JWS algorithm specified in the JWT header is checked
+	 * whether it matches the agreed / expected one. Signature check - The digital
+	 * signature is verified by trying an appropriate public key from the server JWK
+	 * set of the remote server. - JWT claims check -- The JWT claims set is
+	 * validated, for example to ensure the token is not expired and matches the
+	 * expected issuer, audience and other claims.
+	 * 
+	 * Applicable to both access_token and id_token types.
+	 * 
+	 **/
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private ValidationResponse validateBCSCToken(String token, String[] claims) {
 
@@ -95,9 +95,9 @@ public class ECRCJWTValidationServiceImpl implements ECRCJWTValidationService {
 		ConfigurableJWTProcessor<SecurityContext> jwtProcessor = new DefaultJWTProcessor<>();
 
 		// Fetch the public RSA keys from the IdP server to validate the signatures
-		// Keys are sourced from the IdP server's JWK set, published at a well-known URL.
-		// The RemoteJWKSet object caches the retrieved keys to speed up subsequent look-ups and can
-		// also handle key-rollovers.
+		// Keys are sourced from the IdP server's JWK set, published at a well-known
+		// URL. The RemoteJWKSet object caches the retrieved keys to speed up subsequent
+		// look-ups and can also handle key-rollovers.
 		JWKSource<SecurityContext> keySource = null;
 		try {
 			keySource = new RemoteJWKSet<>(new URL(oidcConfigService.getConfig().getJwksUri()));
@@ -118,7 +118,6 @@ public class ECRCJWTValidationServiceImpl implements ECRCJWTValidationService {
 		// Set the required JWT claims for access tokens issued by the IdP (BCSC) server.
 		// This set MUST match those found for the ID_TOKEN rec'd back from BCSC.
 		jwtProcessor.setJWTClaimsSetVerifier(new DefaultJWTClaimsVerifier(
-				// new JWTClaimsSet.Builder().issuer("https://idtest.gov.bc.ca/oauth2/").build(),
 				new JWTClaimsSet.Builder().issuer(oauthProps.getIdp() + "/oauth2/").build(),
 				new HashSet<>(Arrays.asList(claims))));
 

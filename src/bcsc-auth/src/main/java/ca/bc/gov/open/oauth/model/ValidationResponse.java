@@ -17,10 +17,10 @@ public class ValidationResponse {
 
 	@JsonProperty("message")
 	private String message;
-	
+
 	public ValidationResponse(boolean valid, String message) {
-		this.valid = valid; 
-		this.message = message; 
+		this.valid = valid;
+		this.message = message;
 	}
 
 	@JsonProperty("valid")
