@@ -17,7 +17,7 @@ import com.nimbusds.oauth2.sdk.token.BearerAccessToken;
 
 import ca.bc.gov.open.oauth.configuration.OauthProperties;
 import ca.bc.gov.open.oauth.model.ValidationResponse;
-import ca.bc.gov.open.oauth.service.ECRCJWTValidationServiceImpl;
+import ca.bc.gov.open.oauth.service.JWTValidationServiceImpl;
 import ca.bc.gov.open.oauth.service.OauthServicesImpl;
 import ca.bc.gov.open.oauth.util.AES256;
 import ca.bc.gov.open.oauth.util.JwtTokenGenerator;
@@ -46,14 +46,14 @@ public class OauthController {
 	private OauthProperties oauthProps;
 
 	@Autowired
-	private ECRCJWTValidationServiceImpl tokenServices;
+	private JWTValidationServiceImpl tokenServices;
 
 	private final Logger logger = (Logger) LoggerFactory.getLogger(OauthController.class);
-	
+
 	public static final String REQUEST_ENDPOINT = "request.endpoint";
 
 	@ResponseStatus(code = HttpStatus.FOUND)
-	@GetMapping(value = "/getBCSCUrl")
+	@GetMapping(value = "/initiateBCSCAuthentication")
 	public ResponseEntity<String> getBCSCUrl(@RequestParam(required = false) String returnUrl)
 			throws OauthServiceException {
 		MDC.put(REQUEST_ENDPOINT, "getBCSCUrl");
@@ -79,8 +79,8 @@ public class OauthController {
 	 * token).
 	 * 
 	 */
-	//TODO Refactor: This should be moved to a service. To much logic in this.
-	@GetMapping(value = "/login")
+	// TODO Refactor: This should be moved to a service. To much logic in this.
+	@GetMapping(value = "/getToken")
 	public ResponseEntity<String> login(@RequestParam(name = "code", required = true) String authCode,
 			@RequestParam(required = false) String returnUrl) throws OauthServiceException {
 		MDC.put(REQUEST_ENDPOINT, "login");

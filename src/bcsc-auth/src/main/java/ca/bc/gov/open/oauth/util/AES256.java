@@ -16,20 +16,22 @@ import javax.crypto.spec.SecretKeySpec;
 
 /**
  * 
- * AES Encryption class. Used to encrypt the IdP access token(s) added to front end
- * JWT tokens.
+ * AES Encryption class. Used to encrypt the IdP access token(s) added to front
+ * end JWT tokens.
  * 
  * @author shaunmillargov
  *
  */
 public class AES256 {
 
-	private AES256() { throw new IllegalStateException("Utility class"); }
+	private AES256() {
+		throw new IllegalStateException("Utility class");
+	}
 
 	private static String salt = "p900*gU";
-	
+
 	private static Logger logger = LoggerFactory.getLogger(AES256.class);
-	
+
 	/**
 	 * 
 	 * encrypt
@@ -56,7 +58,7 @@ public class AES256 {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 
 	 * decrypt

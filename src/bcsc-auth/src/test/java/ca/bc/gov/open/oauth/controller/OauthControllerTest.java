@@ -26,7 +26,7 @@ import com.nimbusds.oauth2.sdk.token.Tokens;
 import ca.bc.gov.open.oauth.configuration.OauthProperties;
 import ca.bc.gov.open.oauth.exception.OauthServiceException;
 import ca.bc.gov.open.oauth.model.ValidationResponse;
-import ca.bc.gov.open.oauth.service.ECRCJWTValidationServiceImpl;
+import ca.bc.gov.open.oauth.service.JWTValidationServiceImpl;
 import ca.bc.gov.open.oauth.service.OauthServicesImpl;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -43,7 +43,7 @@ class OauthControllerTest {
 	OauthServicesImpl oauthServices;
 
 	@Mock
-	ECRCJWTValidationServiceImpl tokenServices;
+	JWTValidationServiceImpl tokenServices;
 
 	@Mock
 	OauthProperties oauthProperties;
