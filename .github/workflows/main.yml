@@ -14,4 +14,4 @@ jobs:
           java-version: 1.8
       - name: Build with Maven
         run: mvn clean test
-        working-directory: src/
+        working-directory: src/bcsc-auth
