@@ -1,0 +1,16 @@
+version: "3.7"
+services:
+  #############################################################################################
+  ###                               BCSC-AUTH-API                                           ###
+  #############################################################################################
+  bcscauthapi:
+    build:
+      context: .
+      args:
+        - MVN_PROFILES=bcsc-auth-api
+        - BCSC_AUTH_SERVICE_NAME=bcsc-auth-api
+    environment:
+      - spring_profiles_active=cloud
+      # need to add other env variables
+    ports:
+      - "8086:${ECRC_SERVER_PORT}"
