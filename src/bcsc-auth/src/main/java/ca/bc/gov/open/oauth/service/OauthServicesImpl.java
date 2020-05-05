@@ -56,6 +56,8 @@ public class OauthServicesImpl implements OauthServices {
 	public URI getIDPRedirect(String returnUrl) throws URISyntaxException {
 
 		logger.debug("Calling getIDPRedirect");
+		
+		String formattedClientId = oauthProps.getClientId().replace(".", "_").toUpperCase();
 
 		// The authorisation endpoint of IDP the server
 		URI authzEndpoint = new URI(oauthProps.getIdp() + oauthProps.getAuthorizePath());
@@ -64,11 +66,12 @@ public class OauthServicesImpl implements OauthServices {
 		ClientID clientID = new ClientID(oauthProps.getClientId());
 
 		// The requested scope values for the token
-		Scope scope = new Scope(System.getenv().get(oauthProps.getClientId() + "_OAUTH_SCOPE"));
+		Scope scope = new Scope(System.getenv().getOrDefault("BCSC_SCOPE_" + formattedClientId, ""));
 
 		// The client callback URI, typically pre-registered with the server
 		URI callback = new URI(
-				(returnUrl != null) ? returnUrl : System.getenv().get(oauthProps.getClientId() + "_OAUTH_RETURN_URI"));
+				(returnUrl != null) ? returnUrl
+						: System.getenv().getOrDefault("BCSC_RETURN_URI_" + formattedClientId, ""));
 
 		// Generate random state string for pairing the response to the request
 		State state = new State();
@@ -85,16 +88,18 @@ public class OauthServicesImpl implements OauthServices {
 	public AccessTokenResponse getToken(String authCode, String returnUrl) throws OauthServiceException {
 
 		logger.debug("Calling getToken");
+		
+		String formattedClientId = oauthProps.getClientId().replace(".", "_").toUpperCase();
 
 		AuthorizationCode code = new AuthorizationCode(authCode);
 		try {
 
 			URI callback = new URI((returnUrl != null) ? returnUrl
-					: System.getenv().get(oauthProps.getClientId() + "_OAUTH_RETURN_URI"));
+					: System.getenv().getOrDefault("BCSC_RETURN_URI_" + formattedClientId, ""));
 
 			// The credentials to authenticate the client at the token endpoint
 			ClientID clientID = new ClientID(oauthProps.getClientId());
-			Secret clientSecret = new Secret(System.getenv().get(oauthProps.getClientId() + "_OAUTH_SECRET"));
+			Secret clientSecret = new Secret(System.getenv().getOrDefault("BCSC_SECRET_" + formattedClientId, ""));
 			ClientAuthentication clientAuth = new ClientSecretBasic(clientID, clientSecret);
 
 			AuthorizationGrant codeGrant = new AuthorizationCodeGrant(code, callback);

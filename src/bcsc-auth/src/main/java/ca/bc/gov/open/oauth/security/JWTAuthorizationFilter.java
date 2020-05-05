@@ -29,14 +29,18 @@ public class JWTAuthorizationFilter  extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         try {
-            if (checkJWTToken(request)) {
-            	jwtLogger.debug("JWT found in header.");
-                Claims claims = validateToken(request);
-                oauthProperties.setClientId((String) claims.get("clientId"));
-				jwtLogger.debug("JWT passed basic validation checks.");
-				UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(claims.getSubject(),
-						null, null);
-				SecurityContextHolder.getContext().setAuthentication(auth);
+			if (checkJWTToken(request)) {
+				jwtLogger.debug("JWT found in header.");
+				Claims claims = validateToken(request);
+				if (claims.get("clientId") != null) {
+					oauthProperties.setClientId((String) claims.get("clientId"));
+					jwtLogger.debug("JWT passed basic validation checks.");
+					UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+							claims.getSubject(), null, null);
+					SecurityContextHolder.getContext().setAuthentication(auth);
+				} else {
+					SecurityContextHolder.clearContext();
+				}
 			}
 			chain.doFilter(request, response);
         } catch (Exception e) {

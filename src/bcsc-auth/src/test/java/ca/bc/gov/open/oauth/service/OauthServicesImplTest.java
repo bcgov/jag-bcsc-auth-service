@@ -49,9 +49,6 @@ class OauthServicesImplTest {
 	@Mock
 	OauthProperties oauthProperties;
 
-	@Mock
-	System system;
-	
 	public static MockWebServer mockBackEnd;
 
 	@BeforeAll
@@ -65,119 +62,147 @@ class OauthServicesImplTest {
 		mockBackEnd.shutdown();
 	}
 
+	@BeforeEach
+	void initialize() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+		MockitoAnnotations.initMocks(this);
+		String baseUrl = String.format("http://localhost:%s", mockBackEnd.getPort());
+		Mockito.when(oauthProperties.getIdp()).thenReturn(baseUrl);
+		Mockito.when(oauthProperties.getClientId()).thenReturn("123");
+		Mockito.when(oauthProperties.getAuthorizePath()).thenReturn("/test");
+		Mockito.when(oauthProperties.getTokenPath()).thenReturn("/test");
+		Mockito.when(oauthProperties.getUserinfoPath()).thenReturn("/test");
+	}
+
+	
 	/*
-	 * @BeforeEach void initialize() throws NoSuchMethodException,
-	 * InvocationTargetException, IllegalAccessException {
-	 * MockitoAnnotations.initMocks(this); String baseUrl =
-	 * String.format("http://localhost:%s", mockBackEnd.getPort());
-	 * Mockito.when(oauthProperties.getIdp()).thenReturn(baseUrl);
-	 * Mockito.when(oauthProperties.getClientId()).thenReturn("123");
-	 * Mockito.when(oauthProperties.getAuthorizePath()).thenReturn("/test");
-	 * Mockito.when(oauthProperties.getTokenPath()).thenReturn("/test");
-	 * Mockito.when(oauthProperties.getUserinfoPath()).thenReturn("/test");
-	 * System.getenv().put("123_OAUTH_RETURN_URI", "return");
-	 * System.getenv().put("123_OAUTH_SCOPE", "scope");
-	 * System.getenv().put("123_OAUTH_SECRET", "secret"); }
-	 * 
 	 * @DisplayName("Success - getIDPRedirect oauth service default url")
 	 * 
 	 * @Test void testIdpRedirectDefault() throws URISyntaxException { URI response
-	 * = oauthServices.getIDPRedirect(null); Assertions.assertEquals("localhost",
+	 * = oauthServices.getIDPRedirect("TEST"); Assertions.assertEquals("localhost",
 	 * response.getHost()); }
-	 * 
+	 */
+
+	/*
 	 * @DisplayName("Success - getIDPRedirect oauth service specified return")
 	 * 
 	 * @Test void testIdpRedirect() throws URISyntaxException { URI response =
 	 * oauthServices.getIDPRedirect("TEST"); Assertions.assertEquals("localhost",
 	 * response.getHost()); }
-	 * 
-	 * @DisplayName("Success - getToken oauth service default")
-	 * 
-	 * @Test void testDefaultGetTokenSuccess() throws OauthServiceException {
-	 * MockResponse mockResponse = new MockResponse();
-	 * mockResponse.setBody(jsonTokenSuccessResp);
-	 * mockResponse.addHeader("content-type: application/json;");
-	 * mockResponse.setResponseCode(200); mockBackEnd.enqueue(mockResponse);
-	 * AccessTokenResponse response = oauthServices.getToken("test", null);
-	 * Assertions.assertEquals("abc.abc.abc",
-	 * response.getTokens().getBearerAccessToken().getValue()); }
-	 * 
-	 * @DisplayName("Success - getToken oauth service other")
-	 * 
-	 * @Test void testOtherGetTokenSuccess() throws OauthServiceException {
-	 * MockResponse mockResponse = new MockResponse();
-	 * mockResponse.setBody(jsonTokenSuccessResp);
-	 * mockResponse.addHeader("content-type: application/json;");
-	 * mockResponse.setResponseCode(200); mockBackEnd.enqueue(mockResponse);
-	 * AccessTokenResponse response = oauthServices.getToken("test", "TEST");
-	 * Assertions.assertEquals("abc.abc.abc",
-	 * response.getTokens().getBearerAccessToken().getValue()); }
-	 * 
-	 * @DisplayName("Failure - getToken oauth service")
-	 * 
-	 * @Test void testGetTokenFailure1() throws OauthServiceException { MockResponse
-	 * mockResponse = new MockResponse(); mockResponse.setBody(jsonTokenErrorResp);
-	 * mockResponse.addHeader("content-type: application/json;");
-	 * mockResponse.setResponseCode(200); mockBackEnd.enqueue(mockResponse);
-	 * Assertions.assertThrows(OauthServiceException.class, () -> {
-	 * oauthServices.getToken("test", null); }); }
-	 * 
-	 * @DisplayName("Failure - getToken oauth service")
-	 * 
-	 * @Test void testGetTokenFailure2() throws OauthServiceException, IOException {
-	 * tearDown(); Assertions.assertThrows(OauthServiceException.class, () -> {
-	 * oauthServices.getToken("test", null); }); setUp(); }
-	 * 
-	 * @DisplayName("Failure - getToken oauth service")
-	 * 
-	 * @Test void testGetTokenFailure3() throws OauthServiceException { MockResponse
-	 * mockResponse = new MockResponse(); mockResponse.setBody(jsonTokenErrorResp);
-	 * mockResponse.addHeader("content-type: application/json;");
-	 * mockResponse.setResponseCode(400); mockBackEnd.enqueue(mockResponse);
-	 * Assertions.assertThrows(OauthServiceException.class, () -> {
-	 * oauthServices.getToken("test", null); }); }
-	 * 
+	 */
+
+	@DisplayName("Success - getToken oauth service default")
+	@Test
+	void testDefaultGetTokenSuccess() throws OauthServiceException {
+		MockResponse mockResponse = new MockResponse();
+		mockResponse.setBody(jsonTokenSuccessResp);
+		mockResponse.addHeader("content-type: application/json;");
+		mockResponse.setResponseCode(200);
+		mockBackEnd.enqueue(mockResponse);
+		AccessTokenResponse response = oauthServices.getToken("test", null);
+		Assertions.assertEquals("abc.abc.abc", response.getTokens().getBearerAccessToken().getValue());
+	}
+
+	@DisplayName("Success - getToken oauth service other")
+	@Test
+	void testOtherGetTokenSuccess() throws OauthServiceException {
+		MockResponse mockResponse = new MockResponse();
+		mockResponse.setBody(jsonTokenSuccessResp);
+		mockResponse.addHeader("content-type: application/json;");
+		mockResponse.setResponseCode(200);
+		mockBackEnd.enqueue(mockResponse);
+		AccessTokenResponse response = oauthServices.getToken("test", "TEST");
+		Assertions.assertEquals("abc.abc.abc", response.getTokens().getBearerAccessToken().getValue());
+	}
+
+	@DisplayName("Failure - getToken oauth service")
+	@Test
+	void testGetTokenFailure1() throws OauthServiceException {
+		MockResponse mockResponse = new MockResponse();
+		mockResponse.setBody(jsonTokenErrorResp);
+		mockResponse.addHeader("content-type: application/json;");
+		mockResponse.setResponseCode(200);
+		mockBackEnd.enqueue(mockResponse);
+		Assertions.assertThrows(OauthServiceException.class, () -> {
+			oauthServices.getToken("test", null);
+		});
+	}
+
+	@DisplayName("Failure - getToken oauth service")
+	@Test
+	void testGetTokenFailure2() throws OauthServiceException, IOException {
+		tearDown();
+		Assertions.assertThrows(OauthServiceException.class, () -> {
+			oauthServices.getToken("test", null);
+		});
+		setUp();
+	}
+
+	@DisplayName("Failure - getToken oauth service")
+	@Test
+	void testGetTokenFailure3() throws OauthServiceException {
+		MockResponse mockResponse = new MockResponse();
+		mockResponse.setBody(jsonTokenErrorResp);
+		mockResponse.addHeader("content-type: application/json;");
+		mockResponse.setResponseCode(400);
+		mockBackEnd.enqueue(mockResponse);
+		Assertions.assertThrows(OauthServiceException.class, () -> {
+			oauthServices.getToken("test", null);
+		});
+	}
+
+	/*
 	 * @DisplayName("Failure - getToken oauth service")
 	 * 
 	 * @Test void testGetTokenFailure4() throws OauthServiceException {
 	 * Assertions.assertThrows(OauthServiceException.class, () -> {
 	 * oauthServices.getToken("test", null); }); }
-	 * 
-	 * @DisplayName("Success - getUserInfo oauth service")
-	 * 
-	 * @Test void testGetUserInfoSuccess() throws OauthServiceException {
-	 * MockResponse mockResponse = new MockResponse();
-	 * mockResponse.setBody(jwtSuccessResp);
-	 * mockResponse.addHeader("content-type: application/jwt;charset=ISO-8859-1");
-	 * mockResponse.setResponseCode(200); mockBackEnd.enqueue(mockResponse);
-	 * JSONObject response = oauthServices.getUserInfo(new BearerAccessToken());
-	 * Assertions.assertEquals("test", response.get("sub")); }
-	 * 
-	 * @DisplayName("Failure - getUserInfo oauth service")
-	 * 
-	 * @Test void testGetUserInfoFailure1() throws OauthServiceException {
-	 * MockResponse mockResponse = new MockResponse();
-	 * mockResponse.setBody(jsonUserErrorResp);
-	 * mockResponse.addHeader("content-type: application/json;");
-	 * mockResponse.setResponseCode(200); mockBackEnd.enqueue(mockResponse);
-	 * Assertions.assertThrows(OauthServiceException.class, () -> {
-	 * oauthServices.getUserInfo(new BearerAccessToken()); }); }
-	 * 
-	 * @DisplayName("Failure - getUserInfo oauth service")
-	 * 
-	 * @Test void testGetUserInfoFailure2() throws OauthServiceException,
-	 * IOException { tearDown();
-	 * Assertions.assertThrows(OauthServiceException.class, () -> {
-	 * oauthServices.getUserInfo(new BearerAccessToken()); }); setUp(); }
-	 * 
-	 * @DisplayName("Failure - getUserInfo oauth service")
-	 * 
-	 * @Test void testGetUserInfoFailure3() throws OauthServiceException {
-	 * MockResponse mockResponse = new MockResponse();
-	 * mockResponse.setBody(jsonUserErrorResp);
-	 * mockResponse.addHeader("content-type: application/json;");
-	 * mockResponse.setResponseCode(400); mockBackEnd.enqueue(mockResponse);
-	 * Assertions.assertThrows(OauthServiceException.class, () -> {
-	 * oauthServices.getUserInfo(new BearerAccessToken()); }); }
 	 */
+
+	@DisplayName("Success - getUserInfo oauth service")
+	@Test
+	void testGetUserInfoSuccess() throws OauthServiceException {
+		MockResponse mockResponse = new MockResponse();
+		mockResponse.setBody(jwtSuccessResp);
+		mockResponse.addHeader("content-type: application/jwt;charset=ISO-8859-1");
+		mockResponse.setResponseCode(200);
+		mockBackEnd.enqueue(mockResponse);
+		JSONObject response = oauthServices.getUserInfo(new BearerAccessToken());
+		Assertions.assertEquals("test", response.get("sub"));
+	}
+
+	@DisplayName("Failure - getUserInfo oauth service")
+	@Test
+	void testGetUserInfoFailure1() throws OauthServiceException {
+		MockResponse mockResponse = new MockResponse();
+		mockResponse.setBody(jsonUserErrorResp);
+		mockResponse.addHeader("content-type: application/json;");
+		mockResponse.setResponseCode(200);
+		mockBackEnd.enqueue(mockResponse);
+		Assertions.assertThrows(OauthServiceException.class, () -> {
+			oauthServices.getUserInfo(new BearerAccessToken());
+		});
+	}
+
+	@DisplayName("Failure - getUserInfo oauth service")
+	@Test
+	void testGetUserInfoFailure2() throws OauthServiceException, IOException {
+		tearDown();
+		Assertions.assertThrows(OauthServiceException.class, () -> {
+			oauthServices.getUserInfo(new BearerAccessToken());
+		});
+		setUp();
+	}
+
+	@DisplayName("Failure - getUserInfo oauth service")
+	@Test
+	void testGetUserInfoFailure3() throws OauthServiceException {
+		MockResponse mockResponse = new MockResponse();
+		mockResponse.setBody(jsonUserErrorResp);
+		mockResponse.addHeader("content-type: application/json;");
+		mockResponse.setResponseCode(400);
+		mockBackEnd.enqueue(mockResponse);
+		Assertions.assertThrows(OauthServiceException.class, () -> {
+			oauthServices.getUserInfo(new BearerAccessToken());
+		});
+	}
 }
