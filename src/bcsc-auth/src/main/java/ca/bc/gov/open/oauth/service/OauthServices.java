@@ -3,6 +3,8 @@ package ca.bc.gov.open.oauth.service;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.springframework.http.ResponseEntity;
+
 import com.nimbusds.oauth2.sdk.AccessTokenResponse;
 import com.nimbusds.oauth2.sdk.token.BearerAccessToken;
 
@@ -24,4 +26,5 @@ public interface OauthServices {
 
 	public JSONObject getUserInfo(BearerAccessToken accessToken) throws OauthServiceException;
 
+	public ResponseEntity<String> login(String authCode, String returnUrl) throws OauthServiceException;
 }
