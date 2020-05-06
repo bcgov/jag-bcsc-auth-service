@@ -2,7 +2,6 @@ package ca.bc.gov.open.oauth.service;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URI;
 import java.net.URISyntaxException;
 
 import net.minidev.json.JSONObject;
@@ -16,14 +15,20 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import com.nimbusds.oauth2.sdk.AccessTokenResponse;
 import com.nimbusds.oauth2.sdk.token.BearerAccessToken;
 
 import ca.bc.gov.open.oauth.configuration.OauthProperties;
 import ca.bc.gov.open.oauth.exception.OauthServiceException;
+import ca.bc.gov.open.oauth.model.ValidationResponse;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests for oauth service
@@ -49,6 +54,9 @@ class OauthServicesImplTest {
 	@Mock
 	OauthProperties oauthProperties;
 
+	@Mock
+	JWTValidationServiceImpl tokenServices;
+
 	public static MockWebServer mockBackEnd;
 
 	@BeforeAll
@@ -73,22 +81,13 @@ class OauthServicesImplTest {
 		Mockito.when(oauthProperties.getUserinfoPath()).thenReturn("/test");
 	}
 
-	
-	/*
-	 * @DisplayName("Success - getIDPRedirect oauth service default url")
-	 * 
-	 * @Test void testIdpRedirectDefault() throws URISyntaxException { URI response
-	 * = oauthServices.getIDPRedirect("TEST"); Assertions.assertEquals("localhost",
-	 * response.getHost()); }
-	 */
-
-	/*
-	 * @DisplayName("Success - getIDPRedirect oauth service specified return")
-	 * 
-	 * @Test void testIdpRedirect() throws URISyntaxException { URI response =
-	 * oauthServices.getIDPRedirect("TEST"); Assertions.assertEquals("localhost",
-	 * response.getHost()); }
-	 */
+	@DisplayName("Error - getIDPRedirect oauth service")
+	@Test
+	void testIdpRedirectDefault() throws URISyntaxException {
+		Assertions.assertThrows(Exception.class, () -> {
+			oauthServices.getIDPRedirect("TEST");
+		});
+	}
 
 	@DisplayName("Success - getToken oauth service default")
 	@Test
@@ -150,14 +149,6 @@ class OauthServicesImplTest {
 		});
 	}
 
-	/*
-	 * @DisplayName("Failure - getToken oauth service")
-	 * 
-	 * @Test void testGetTokenFailure4() throws OauthServiceException {
-	 * Assertions.assertThrows(OauthServiceException.class, () -> {
-	 * oauthServices.getToken("test", null); }); }
-	 */
-
 	@DisplayName("Success - getUserInfo oauth service")
 	@Test
 	void testGetUserInfoSuccess() throws OauthServiceException {
@@ -204,5 +195,77 @@ class OauthServicesImplTest {
 		Assertions.assertThrows(OauthServiceException.class, () -> {
 			oauthServices.getUserInfo(new BearerAccessToken());
 		});
+	}
+
+	@DisplayName("Success - login oauth service default")
+	@Test
+	void testDefaultLoginSuccess() throws OauthServiceException, URISyntaxException {
+		MockResponse mockResponse = new MockResponse();
+		mockResponse.setBody(jsonTokenSuccessResp);
+		mockResponse.addHeader("content-type: application/json;");
+		mockResponse.setResponseCode(200);
+		mockBackEnd.enqueue(mockResponse);
+		MockResponse mockResponse2 = new MockResponse();
+		mockResponse2.setBody(jwtSuccessResp);
+		mockResponse2.addHeader("content-type: application/jwt;charset=ISO-8859-1");
+		mockResponse2.setResponseCode(200);
+		mockBackEnd.enqueue(mockResponse2);
+		when(tokenServices.validateBCSCIDToken(any())).thenReturn(new ValidationResponse(true, "success"));
+		ResponseEntity<String> response = oauthServices.login("test", null);
+		Assertions.assertNotNull(response);
+	}
+
+	@DisplayName("Success - login oauth service other")
+	@Test
+	void testOtherLoginSuccess() throws OauthServiceException, URISyntaxException {
+		MockResponse mockResponse = new MockResponse();
+		mockResponse.setBody(jsonTokenSuccessResp);
+		mockResponse.addHeader("content-type: application/json;");
+		mockResponse.setResponseCode(200);
+		mockBackEnd.enqueue(mockResponse);
+		MockResponse mockResponse2 = new MockResponse();
+		mockResponse2.setBody(jwtSuccessResp);
+		mockResponse2.addHeader("content-type: application/jwt;charset=ISO-8859-1");
+		mockResponse2.setResponseCode(200);
+		mockBackEnd.enqueue(mockResponse2);
+		when(tokenServices.validateBCSCIDToken(any())).thenReturn(new ValidationResponse(true, "success"));
+		ResponseEntity<String> response = oauthServices.login("test", "TEST");
+		Assertions.assertNotNull(response);
+	}
+
+	@DisplayName("Error - login oauth service")
+	@Test
+	void testLoginError1() throws OauthServiceException, URISyntaxException {
+		MockResponse mockResponse = new MockResponse();
+		mockResponse.setBody(jsonTokenErrorResp);
+		mockResponse.addHeader("content-type: application/json;");
+		mockResponse.setResponseCode(200);
+		mockBackEnd.enqueue(mockResponse);
+		MockResponse mockResponse2 = new MockResponse();
+		mockResponse2.setBody(jwtSuccessResp);
+		mockResponse2.addHeader("content-type: application/jwt;charset=ISO-8859-1");
+		mockResponse2.setResponseCode(200);
+		mockBackEnd.enqueue(mockResponse2);
+		when(tokenServices.validateBCSCIDToken(any())).thenReturn(new ValidationResponse(true, "success"));
+		ResponseEntity<String> response = oauthServices.login(null, null);
+		Assertions.assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
+	}
+
+	@DisplayName("Error - login oauth service (invalid token)")
+	@Test
+	void testLoginError2() throws OauthServiceException, URISyntaxException {
+		MockResponse mockResponse = new MockResponse();
+		mockResponse.setBody(jsonTokenSuccessResp);
+		mockResponse.addHeader("content-type: application/json;");
+		mockResponse.setResponseCode(200);
+		mockBackEnd.enqueue(mockResponse);
+		MockResponse mockResponse2 = new MockResponse();
+		mockResponse2.setBody(jwtSuccessResp);
+		mockResponse2.addHeader("content-type: application/jwt;charset=ISO-8859-1");
+		mockResponse2.setResponseCode(200);
+		mockBackEnd.enqueue(mockResponse2);
+		when(tokenServices.validateBCSCIDToken(any())).thenReturn(new ValidationResponse(false, "failure"));
+		ResponseEntity<String> response = oauthServices.login("code", null);
+		Assertions.assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
 	}
 }
