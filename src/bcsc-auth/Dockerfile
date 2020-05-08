@@ -30,8 +30,8 @@ FROM openjdk:8-jdk-slim
 ARG MVN_PROFILES
 ARG BCSC_AUTH_SERVICE_NAME
 
-COPY --from=build /target/${BCSC_AUTH_SERVICE_NAME}-*.jar /app/bcsc-auth-api.jar
+COPY --from=build /target/${BCSC_AUTH_SERVICE_NAME}-*.jar /app/bcsc-auth-1.0.0.jar
 
 
-CMD ["java", "-jar", "/app/bcsc-auth-api.jar"]
+CMD ["java", "-jar", "/app/bcsc-auth-1.0.0.jar"]
 #############################################################################################

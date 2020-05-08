@@ -7,8 +7,8 @@ services:
     build:
       context: .
       args:
-        - MVN_PROFILES=bcsc-auth-api
-        - BCSC_AUTH_SERVICE_NAME=bcsc-auth-api
+        - MVN_PROFILES=bcsc-auth
+        - BCSC_AUTH_SERVICE_NAME=bcsc-auth
     environment:
       - spring_profiles_active=cloud
       - BCSC_OAUTH_BASIC_PASSWORD=${BCSC_OAUTH_BASIC_PASSWORD}
