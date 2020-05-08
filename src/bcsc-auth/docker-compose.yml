@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+  #############################################################################################
+  ###                               BCSC-AUTH-API                                           ###
+  #############################################################################################
+  bcscauthapi:
+    build:
+      context: .
+      args:
+        - MVN_PROFILES=bcsc-auth
+        - BCSC_AUTH_SERVICE_NAME=bcsc-auth
+    environment:
+      - spring_profiles_active=cloud
+      - BCSC_OAUTH_BASIC_PASSWORD=${BCSC_OAUTH_BASIC_PASSWORD}
+      - BCSC_OAUTH_BASIC_USERNAME=${BCSC_OAUTH_BASIC_USERNAME}
+      - BCSC_OAUTH_IDP=${BCSC_OAUTH_IDP}
+      - BCSC_OAUTH_JWT_AUTH_ROLE=${BCSC_OAUTH_JWT_AUTH_ROLE}
+      - BCSC_OAUTH_JWT_HEADER=${BCSC_OAUTH_JWT_HEADER}
+      - BCSC_OAUTH_JWT_PREFIX=${BCSC_OAUTH_JWT_PREFIX}
+      - BCSC_OAUTH_JWT_SECRET=${BCSC_OAUTH_JWT_SECRET}
+      - BCSC_OAUTH_SERVER_PORT=${BCSC_OAUTH_SERVER_PORT}
+      - BCSC_OAUTH_TOKEN_EXPIRY=${BCSC_OAUTH_TOKEN_EXPIRY}
+      - BCSC_OAUTH_WELL_KNOWN=${BCSC_OAUTH_WELL_KNOWN}
+      - BCSC_PER_SECRET_URN_CA_BC_GOV_JUSTICE_ECRC_DEV=${BCSC_PER_SECRET_URN_CA_BC_GOV_JUSTICE_ECRC_DEV}
+      - BCSC_RETURN_URI_URN_CA_BC_GOV_JUSTICE_ECRC_DEV=${BCSC_RETURN_URI_URN_CA_BC_GOV_JUSTICE_ECRC_DEV}
+      - BCSC_SCOPE_URN_CA_BC_GOV_JUSTICE_ECRC_DEV=${BCSC_SCOPE_URN_CA_BC_GOV_JUSTICE_ECRC_DEV}
+      - BCSC_SECRET_URN_CA_BC_GOV_JUSTICE_ECRC_DEV=${BCSC_SECRET_URN_CA_BC_GOV_JUSTICE_ECRC_DEV}
+    ports:
+      - "8083:${BCSC_OAUTH_SERVER_PORT}"
