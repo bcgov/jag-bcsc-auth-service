@@ -19,7 +19,7 @@ Possibly STS4 (Used to create this initial code base).
 
 Note: Clone the repo then import as a 'Maven' project into STS4.
 
-#### Environmental variables for running the eCRC-API locally
+#### Environmental variables for running the service locally
 
 The following Windows environmental variables must be set either as Windows environmental variables or as STS4 Spring Boot App variables.
 
