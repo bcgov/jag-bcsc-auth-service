@@ -84,16 +84,6 @@ docker-compose up --build -d
 
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
 
-### OpenShift:
-The latest OpenShift deployment images are available under pqyiwk-tools project. 
-
-To manually deploy the latest image to a target environment:
-- Create the deployment configuration if not yet exists. 
-- Run oc command. Following is an example.
-```
-oc rollout latest dc/bcsc-auth-service -n pqyiwk-dev
-```
-
 ## Files in this repository
 ```
 project
