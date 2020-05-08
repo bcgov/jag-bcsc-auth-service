@@ -17,16 +17,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.nimbusds.oauth2.sdk.AccessTokenResponse;
-
-import com.nimbusds.oauth2.sdk.token.BearerAccessToken;
-import com.nimbusds.oauth2.sdk.token.RefreshToken;
-import com.nimbusds.oauth2.sdk.token.Tokens;
-
 import ca.bc.gov.open.oauth.configuration.OauthProperties;
 import ca.bc.gov.open.oauth.exception.OauthServiceException;
-import ca.bc.gov.open.oauth.model.ValidationResponse;
-import ca.bc.gov.open.oauth.service.JWTValidationServiceImpl;
 import ca.bc.gov.open.oauth.service.OauthServicesImpl;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -41,9 +33,6 @@ class OauthControllerTest {
 
 	@Mock
 	OauthServicesImpl oauthServices;
-
-	@Mock
-	JWTValidationServiceImpl tokenServices;
 
 	@Mock
 	OauthProperties oauthProperties;
@@ -94,11 +83,7 @@ class OauthControllerTest {
 	@Test
 	void testDefaultLoginSuccess() throws OauthServiceException, URISyntaxException {
 
-		when(oauthServices.getUserInfo(any())).thenReturn(userInfo);
-		when(oauthServices.getToken(any(), any()))
-				.thenReturn(new AccessTokenResponse(new Tokens(new BearerAccessToken(), new RefreshToken())));
-		when(tokenServices.validateBCSCIDToken(any())).thenReturn(new ValidationResponse(true, "success"));
-
+		when(oauthServices.login(any(), any())).thenReturn(new ResponseEntity<>("test", HttpStatus.OK));
 		ResponseEntity<String> response = oauthController.login("test", null);
 		Assertions.assertNotNull(response);
 	}
@@ -107,40 +92,15 @@ class OauthControllerTest {
 	@Test
 	void testOtherLoginSuccess() throws OauthServiceException, URISyntaxException {
 
-		when(oauthServices.getUserInfo(any())).thenReturn(userInfo);
-		when(oauthServices.getToken(any(), any()))
-				.thenReturn(new AccessTokenResponse(new Tokens(new BearerAccessToken(), new RefreshToken())));
-		when(tokenServices.validateBCSCIDToken(any())).thenReturn(new ValidationResponse(true, "success"));
-
+		when(oauthServices.login(any(), any())).thenReturn(new ResponseEntity<>("test", HttpStatus.OK));
 		ResponseEntity<String> response = oauthController.login("test", "TEST");
 		Assertions.assertNotNull(response);
 	}
 
-	@DisplayName("Error - login oauth controller (getToken)")
+	@DisplayName("Error - login oauth controller")
 	@Test
 	void testLoginError1() throws OauthServiceException, URISyntaxException {
-		when(oauthServices.getToken(any(), any())).thenThrow(new OauthServiceException("error"));
-		ResponseEntity<String> response = oauthController.login("code", null);
-		Assertions.assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
-	}
-
-	@DisplayName("Error - login oauth controller (getUserInfo)")
-	@Test
-	void testLoginError2() throws OauthServiceException, URISyntaxException {
-		when(oauthServices.getToken(any(), any()))
-				.thenReturn(new AccessTokenResponse(new Tokens(new BearerAccessToken(), new RefreshToken())));
-		when(tokenServices.validateBCSCIDToken(any())).thenReturn(new ValidationResponse(true, "success"));
-		when(oauthServices.getUserInfo(any())).thenThrow(new OauthServiceException("error"));
-		ResponseEntity<String> response = oauthController.login("code", null);
-		Assertions.assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
-	}
-
-	@DisplayName("Error - login oauth controller (invalid token)")
-	@Test
-	void testLoginError3() throws OauthServiceException, URISyntaxException {
-		when(oauthServices.getToken(any(), any()))
-				.thenReturn(new AccessTokenResponse(new Tokens(new BearerAccessToken(), new RefreshToken())));
-		when(tokenServices.validateBCSCIDToken(any())).thenReturn(new ValidationResponse(false, "failure"));
+		when(oauthServices.login(any(), any())).thenThrow(new OauthServiceException("error"));
 		ResponseEntity<String> response = oauthController.login("code", null);
 		Assertions.assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
 	}

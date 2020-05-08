@@ -23,7 +23,6 @@ public class OauthProperties {
 	private String userinfoPath;
 	private String authorizePath;
 	private String wellKnown;
-	private String perSecret;
 	private int bcscTimeout;
 
 	// JWT properties
@@ -99,14 +98,6 @@ public class OauthProperties {
 
 	public void setWellKnown(String wellKnown) {
 		this.wellKnown = wellKnown;
-	}
-
-	public String getPerSecret() {
-		return perSecret;
-	}
-
-	public void setPerSecret(String perSecret) {
-		this.perSecret = perSecret;
 	}
 
 	public int getBcscTimeout() {
