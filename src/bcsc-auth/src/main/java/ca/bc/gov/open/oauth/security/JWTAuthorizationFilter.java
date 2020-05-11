@@ -43,12 +43,11 @@ public class JWTAuthorizationFilter  extends OncePerRequestFilter {
 					throw new AuthenticationCredentialsNotFoundException("Client Id not found");
 				}
 			} else {
-				throw new AuthenticationCredentialsNotFoundException("Jwt not found");
+				oauthProperties.setClientId(null);
+				SecurityContextHolder.clearContext();
 			}
 			chain.doFilter(request, response);
 		} catch (Exception e) {
-			oauthProperties.setClientId(null);
-			SecurityContextHolder.clearContext();
             jwtLogger.info("Authentication failed: {}", e.getMessage());
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             (response).sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
