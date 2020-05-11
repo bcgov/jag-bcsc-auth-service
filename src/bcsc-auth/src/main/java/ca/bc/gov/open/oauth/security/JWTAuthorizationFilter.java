@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -39,11 +40,15 @@ public class JWTAuthorizationFilter  extends OncePerRequestFilter {
 							claims.getSubject(), null, null);
 					SecurityContextHolder.getContext().setAuthentication(auth);
 				} else {
-					SecurityContextHolder.clearContext();
+					throw new AuthenticationCredentialsNotFoundException("Client Id not found");
 				}
+			} else {
+				throw new AuthenticationCredentialsNotFoundException("Jwt not found");
 			}
 			chain.doFilter(request, response);
-        } catch (Exception e) {
+		} catch (Exception e) {
+			oauthProperties.setClientId(null);
+			SecurityContextHolder.clearContext();
             jwtLogger.info("Authentication failed: {}", e.getMessage());
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             (response).sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
