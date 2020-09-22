@@ -1,6 +1,8 @@
 # jag-bcsc-auth-service
 BCSC Auth service (eCRC microservice) by Ministry of Justice
 
+BCSC Auth service API utilizes OIDC library to integrate with the BC Services Card (BCSC) to verify user identity. 
+
 Technical Overview
 ---------------------
 | Layer   | Technology |
@@ -14,6 +16,17 @@ Technical Overview
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
 #### Prerequisites
+
+Prior to using this API, the following needs to be requested from the BCSC:
+
+| Variable                                      |                Description   		|
+| --------------------------------------------- | -----------------------------: 	|
+| BCSC_CLIENT_ID 				| Unique client ID for your service	|
+| BCSC_SECRET 					| Client secret				|
+| BCSC_SCOPE 					| Client scope				|
+| BCSC_RETURN  					| Client return URL			|
+| BCSC_PER_SECRET 				| Client PER claim decryption secret	|
+
 
 Possibly STS4 (Used to create this initial code base).
 
@@ -35,10 +48,10 @@ The following Windows environmental variables must be set either as Windows envi
 | BCSC_OAUTH_SERVER_PORT                             |              SOMETHINGSECRET |
 | BCSC_OAUTH_TOKEN_EXPIRY                            |                         3000 |
 | BCSC_OAUTH_WELL_KNOWN                              |                      someUrl |
-| BCSC_PER_SECRET_URN_CA_BC_GOV_JUSTICE_ECRC_DEV     |                   someSecret |
-| BCSC_RETURN_URI_URN_CA_BC_GOV_JUSTICE_ECRC_DEV     |                      someUrl |
-| BCSC_SCOPE_URN_CA_BC_GOV_JUSTICE_ECRC_DEV          |                  oAuth scope |
-| BCSC_SECRET_URN_CA_BC_GOV_JUSTICE_ECRC_DEV         |               secret for urn |
+| BCSC_PER_SECRET_<BCSC_CLIENT_ID>     		     |                   someSecret |
+| BCSC_RETURN_<BCSC_CLIENT_ID>     		     |                      someUrl |
+| BCSC_SCOPE_<BCSC_CLIENT_ID>          		     |                  oAuth scope |
+| BCSC_SECRET_<BCSC_CLIENT_ID>         		     |               secret for urn |
 
 #### Installing
 
