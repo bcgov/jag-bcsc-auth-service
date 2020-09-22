@@ -19,13 +19,13 @@ These instructions will get you a copy of the project up and running on your loc
 
 Prior to using this API, the following needs to be requested from the BCSC:
 
-| Variable                                      |                Description   		|
-| --------------------------------------------- | -----------------------------: 	|
-| BCSC_CLIENT_ID 				| Unique client ID for your service	|
-| BCSC_SECRET 					| Client secret				|
-| BCSC_SCOPE 					| Client scope				|
-| BCSC_RETURN  					| Client return URL			|
-| BCSC_PER_SECRET 				| Client PER claim decryption secret	|
+| Variable        |                        Description |
+| --------------- | ---------------------------------: |
+| BCSC_CLIENT_ID  |  Unique client ID for your service |
+| BCSC_SECRET     |                      Client secret |
+| BCSC_SCOPE      |                       Client scope |
+| BCSC_RETURN     |                  Client return URL |
+| BCSC_PER_SECRET | Client PER claim decryption secret |
 
 
 Possibly STS4 (Used to create this initial code base).
@@ -36,22 +36,22 @@ Note: Clone the repo then import as a 'Maven' project into STS4.
 
 The following Windows environmental variables must be set either as Windows environmental variables or as STS4 Spring Boot App variables.
 
-| Variable                                           |                Example Value |
-| -------------------------------------------------- | ---------------------------: |
-| BCSC_OAUTH_BASIC_PASSWORD                          |                     password |
-| BCSC_OAUTH_BASIC_USERNAME                          |                         user |
-| BCSC_OAUTH_IDP                                     |                      IDP url |
-| BCSC_OAUTH_JWT_AUTH_ROLE                           |                   Authorized |
-| BCSC_OAUTH_JWT_HEADER                              |               Authorization2 |
-| BCSC_OAUTH_JWT_PREFIX                              |                       Bearer |
-| BCSC_OAUTH_JWT_SECRET                              |                Authorization |
-| BCSC_OAUTH_SERVER_PORT                             |              SOMETHINGSECRET |
-| BCSC_OAUTH_TOKEN_EXPIRY                            |                         3000 |
-| BCSC_OAUTH_WELL_KNOWN                              |                      someUrl |
-| BCSC_PER_SECRET_<BCSC_CLIENT_ID>     		     |                   someSecret |
-| BCSC_RETURN_<BCSC_CLIENT_ID>     		     |                      someUrl |
-| BCSC_SCOPE_<BCSC_CLIENT_ID>          		     |                  oAuth scope |
-| BCSC_SECRET_<BCSC_CLIENT_ID>         		     |               secret for urn |
+| Variable                         |   Example Value |
+| -------------------------------- | --------------: |
+| BCSC_OAUTH_BASIC_PASSWORD        |        password |
+| BCSC_OAUTH_BASIC_USERNAME        |            user |
+| BCSC_OAUTH_IDP                   |         IDP url |
+| BCSC_OAUTH_JWT_AUTH_ROLE         |      Authorized |
+| BCSC_OAUTH_JWT_HEADER            |  Authorization2 |
+| BCSC_OAUTH_JWT_PREFIX            |          Bearer |
+| BCSC_OAUTH_JWT_SECRET            |   Authorization |
+| BCSC_OAUTH_SERVER_PORT           | SOMETHINGSECRET |
+| BCSC_OAUTH_TOKEN_EXPIRY          |            3000 |
+| BCSC_OAUTH_WELL_KNOWN            |         someUrl |
+| BCSC_PER_SECRET_<BCSC_CLIENT_ID> |      someSecret |
+| BCSC_RETURN_<BCSC_CLIENT_ID>     |         someUrl |
+| BCSC_SCOPE_<BCSC_CLIENT_ID>      |     oAuth scope |
+| BCSC_SECRET_<BCSC_CLIENT_ID>     |  secret for urn |
 
 #### Installing
 
