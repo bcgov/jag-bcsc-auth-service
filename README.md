@@ -3,6 +3,13 @@ BCSC Auth service (eCRC microservice) by Ministry of Justice
 
 BCSC Auth service API utilizes the OIDC library to integrate with the BC Services Card (BCSC) to verify user identity. 
 
+The BCSC Auth service API provides two endpoints which:
+
+1. allows the user to redirect to BCSC and authenticate
+2. allows an API client to retrieve personal information of an authenticated user
+
+Please refer to `Prerequisites` section for BCSC configuration requirements.
+
 Technical Overview
 ---------------------
 | Layer   | Technology |
@@ -78,6 +85,14 @@ Note: If using STS4, see the **Boot Dashboard** window instead of using the Mave
 ```
 http://localhost:8083/oauth
 ```
+
+#### Endpoints
+
+| Endpoint                                                                   | Parameters                                                                    |
+| -------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| http://localhost:8083/oauth/initiateBCSCAuthentication?returnUrl=returnUrl | returnUrl - The url to redirect after authenticating with BCSC                |
+| http://localhost:8083/oauth/getToken?code=code&returnUrl=returnUrl         | code - The authentication code provided by BCSC after user login              |
+|                                                                            | returnUrl - The url to redirect after user information is retrieved from BCSC |
 
 #### Autodeploy
 
