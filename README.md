@@ -1,6 +1,15 @@
 # jag-bcsc-auth-service
 BCSC Auth service (eCRC microservice) by Ministry of Justice
 
+BCSC Auth service API utilizes the OIDC library to integrate with the BC Services Card (BCSC) to verify user identity. 
+
+The BCSC Auth service API provides two endpoints which:
+
+1. allows the user to redirect to BCSC and authenticate
+2. allows an API client to retrieve personal information of an authenticated user
+
+Please refer to `Prerequisites` section for BCSC configuration requirements.
+
 Technical Overview
 ---------------------
 | Layer   | Technology |
@@ -15,6 +24,17 @@ These instructions will get you a copy of the project up and running on your loc
 
 #### Prerequisites
 
+Prior to using this API, the following needs to be requested from the BCSC:
+
+| Variable        |                        Description |
+| --------------- | ---------------------------------: |
+| BCSC_CLIENT_ID  |  Unique client ID for your service |
+| BCSC_SECRET     |                      Client secret |
+| BCSC_SCOPE      |                       Client scope |
+| BCSC_RETURN     |                  Client return URL |
+| BCSC_PER_SECRET | Client PER claim decryption secret |
+
+
 Possibly STS4 (Used to create this initial code base).
 
 Note: Clone the repo then import as a 'Maven' project into STS4.
@@ -23,22 +43,22 @@ Note: Clone the repo then import as a 'Maven' project into STS4.
 
 The following Windows environmental variables must be set either as Windows environmental variables or as STS4 Spring Boot App variables.
 
-| Variable                                           |                Example Value |
-| -------------------------------------------------- | ---------------------------: |
-| BCSC_OAUTH_BASIC_PASSWORD                          |                     password |
-| BCSC_OAUTH_BASIC_USERNAME                          |                         user |
-| BCSC_OAUTH_IDP                                     |                      IDP url |
-| BCSC_OAUTH_JWT_AUTH_ROLE                           |                   Authorized |
-| BCSC_OAUTH_JWT_HEADER                              |               Authorization2 |
-| BCSC_OAUTH_JWT_PREFIX                              |                       Bearer |
-| BCSC_OAUTH_JWT_SECRET                              |                Authorization |
-| BCSC_OAUTH_SERVER_PORT                             |              SOMETHINGSECRET |
-| BCSC_OAUTH_TOKEN_EXPIRY                            |                         3000 |
-| BCSC_OAUTH_WELL_KNOWN                              |                      someUrl |
-| BCSC_PER_SECRET_URN_CA_BC_GOV_JUSTICE_ECRC_DEV     |                   someSecret |
-| BCSC_RETURN_URI_URN_CA_BC_GOV_JUSTICE_ECRC_DEV     |                      someUrl |
-| BCSC_SCOPE_URN_CA_BC_GOV_JUSTICE_ECRC_DEV          |                  oAuth scope |
-| BCSC_SECRET_URN_CA_BC_GOV_JUSTICE_ECRC_DEV         |               secret for urn |
+| Variable                         |   Example Value |
+| -------------------------------- | --------------: |
+| BCSC_OAUTH_BASIC_PASSWORD        |        password |
+| BCSC_OAUTH_BASIC_USERNAME        |            user |
+| BCSC_OAUTH_IDP                   |         IDP url |
+| BCSC_OAUTH_JWT_AUTH_ROLE         |      Authorized |
+| BCSC_OAUTH_JWT_HEADER            |  Authorization2 |
+| BCSC_OAUTH_JWT_PREFIX            |          Bearer |
+| BCSC_OAUTH_JWT_SECRET            |   Authorization |
+| BCSC_OAUTH_SERVER_PORT           | SOMETHINGSECRET |
+| BCSC_OAUTH_TOKEN_EXPIRY          |            3000 |
+| BCSC_OAUTH_WELL_KNOWN            |         someUrl |
+| BCSC_PER_SECRET_<BCSC_CLIENT_ID> |      someSecret |
+| BCSC_RETURN_<BCSC_CLIENT_ID>     |         someUrl |
+| BCSC_SCOPE_<BCSC_CLIENT_ID>      |     oAuth scope |
+| BCSC_SECRET_<BCSC_CLIENT_ID>     |   client secret |
 
 #### Installing
 
@@ -65,6 +85,14 @@ Note: If using STS4, see the **Boot Dashboard** window instead of using the Mave
 ```
 http://localhost:8083/oauth
 ```
+
+#### Endpoints
+
+| Endpoint                                                                   | Parameters                                                                    |
+| -------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| http://localhost:8083/oauth/initiateBCSCAuthentication?returnUrl=returnUrl | returnUrl - The url to redirect after authenticating with BCSC                |
+| http://localhost:8083/oauth/getToken?code=code&returnUrl=returnUrl         | code - The authentication code provided by BCSC after user login              |
+|                                                                            | returnUrl - The url to redirect after user information is retrieved from BCSC |
 
 #### Autodeploy
 
