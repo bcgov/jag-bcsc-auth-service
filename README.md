@@ -51,7 +51,7 @@ The following Windows environmental variables must be set either as Windows envi
 | BCSC_PER_SECRET_<BCSC_CLIENT_ID> |      someSecret |
 | BCSC_RETURN_<BCSC_CLIENT_ID>     |         someUrl |
 | BCSC_SCOPE_<BCSC_CLIENT_ID>      |     oAuth scope |
-| BCSC_SECRET_<BCSC_CLIENT_ID>     |  secret for urn |
+| BCSC_SECRET_<BCSC_CLIENT_ID>     |   client secret |
 
 #### Installing
 
