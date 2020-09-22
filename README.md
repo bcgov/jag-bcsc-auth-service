@@ -1,7 +1,7 @@
 # jag-bcsc-auth-service
 BCSC Auth service (eCRC microservice) by Ministry of Justice
 
-BCSC Auth service API utilizes OIDC library to integrate with the BC Services Card (BCSC) to verify user identity. 
+BCSC Auth service API utilizes the OIDC library to integrate with the BC Services Card (BCSC) to verify user identity. 
 
 Technical Overview
 ---------------------
