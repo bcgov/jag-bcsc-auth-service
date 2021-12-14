@@ -20,7 +20,7 @@
 		<nimbus.oauth.version>7.0.3</nimbus.oauth.version>
 		<jjwt.version>0.9.1</jjwt.version>
 		<javax.mail.version>1.4</javax.mail.version>
-		<log4j2.version>2.15.0</log4j2.version>
+		<log4j2.version>2.16.0</log4j2.version>
 	</properties>
 
 	<dependencies>
