@@ -69,7 +69,7 @@ class JWTAuthorizationFilterTest {
 				return "prefix" + jwtSuccess;
 			}
 			@Override
-			public String getContextPath() { return "test"; }
+			public String getRequestURI() { return "test"; }
 		};
 		HttpServletResponse response = mock(HttpServletResponse.class);
 		FilterChain chain = mock(FilterChain.class);

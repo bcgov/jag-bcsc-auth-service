@@ -30,8 +30,8 @@ public class JWTAuthorizationFilter  extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         try {
-            jwtLogger.info(request.getContextPath());
-            if (request.getContextPath().contains("/oauth/actuator/health")) {
+            jwtLogger.info(request.getRequestURI());
+            if (request.getRequestURI().contains("/oauth/actuator/health")) {
                 chain.doFilter(request, response);
                 return;
             }
