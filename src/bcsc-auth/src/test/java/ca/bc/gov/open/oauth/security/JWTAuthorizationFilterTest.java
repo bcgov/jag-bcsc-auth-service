@@ -68,6 +68,8 @@ class JWTAuthorizationFilterTest {
 			public String getHeader(String name) {
 				return "prefix" + jwtSuccess;
 			}
+			@Override
+			public String getRequestURI() { return "test"; }
 		};
 		HttpServletResponse response = mock(HttpServletResponse.class);
 		FilterChain chain = mock(FilterChain.class);
