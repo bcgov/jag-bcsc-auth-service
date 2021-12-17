@@ -1,4 +1,3 @@
-
 [![Lifecycle:Stable](https://img.shields.io/badge/Lifecycle-Stable-97ca00)](<Redirect-URL>)
 
 # jag-bcsc-auth-service
