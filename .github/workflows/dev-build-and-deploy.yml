@@ -7,10 +7,10 @@ on:
   workflow_dispatch:
     branches:
       - main
-      - feature//migrating-pipelines-to-github
+      - feature/migrating-pipelines-to-github
 
 jobs:
-  dev-build-and-deploy:
+  dev-build:
     runs-on: ubuntu-latest
 
     steps:
