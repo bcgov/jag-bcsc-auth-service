@@ -8,14 +8,13 @@ ARG PROXY_HOST=
 ARG PROXY_PORT=
 
 ARG MVN_PROFILES
-ARG BCSC_AUTH_SERVICE_NAME
 
-ENV BCSC_AUTH_SERVICE_NAME=${BCSC_AUTH_SERVICE_NAME}
 ENV MVN_PROFILES=${MVN_PROFILES}
 
 COPY . .
 
 RUN mvn -B clean package \
+        -Dmaven.test.skip=true \
         -DproxySet=${PROXY_SET} \
         -DproxyHost=${PROXY_HOST} \
         -DproxyPort=${PROXY_PORT} \
@@ -27,11 +26,15 @@ RUN mvn -B clean package \
 #############################################################################################
 FROM openjdk:8-jdk-slim
 
-ARG MVN_PROFILES
-ARG BCSC_AUTH_SERVICE_NAME
+ARG APP_NAME
+ARG APP_VERSION
 
-COPY --from=build /target/${BCSC_AUTH_SERVICE_NAME}-*.jar /app/bcsc-auth-1.0.0.jar
+ENV APP_NAME=${APP_NAME}
+ENV APP_VERSION=${APP_VERSION}
 
+WORKDIR /app
 
-CMD ["java", "-jar", "/app/bcsc-auth-1.0.0.jar"]
+COPY --from=build "/target/${APP_NAME}-${APP_VERSION}.jar" "${APP_NAME}-${APP_VERSION}.jar"
+
+ENTRYPOINT java -jar "${APP_NAME}-${APP_VERSION}.jar"
 #############################################################################################
