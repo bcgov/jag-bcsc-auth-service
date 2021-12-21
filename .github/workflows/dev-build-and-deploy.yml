@@ -7,10 +7,10 @@ on:
   workflow_dispatch:
     branches:
       - main
-      - feature/add-tag-to-workflow
+      - feature//migrating-pipelines-to-github
 
 jobs:
-  build:
+  dev-build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
