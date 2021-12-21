@@ -53,8 +53,7 @@ jobs:
         with:
           image: ${{ env.APP_NAME }}
           tags: ${{ env.IMAGE_TAGS }}
-          dockerfiles: "./src/bcsc-auth/Dockerfile"
-          context: "./src/bcsc-auth"
+#          context: "./src/bcsc-auth"
           build-args: |-
                         MVN_PROFILES=openshift
                         APP_NAME=${{ env.APP_NAME }}
