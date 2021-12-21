@@ -8,6 +8,7 @@ on:
 
 env:
   IMAGE_TAGS: ""
+  APP_NAME: "bcsc-auth-service"
 
 jobs:
   build:
@@ -45,3 +46,15 @@ jobs:
         if: env.IMAGE_TAGS == ''
         run: |
           echo "IMAGE_TAGS=latest ${LATEST_VERSION}-${GITHUB_SHA::8}" | tee -a $GITHUB_ENV
+
+      - name: Build from Dockerfile
+        id: build-image
+        uses: redhat-actions/buildah-build@v2
+        with:
+          image: ${{ env.APP_NAME }}
+          tags: ${{ env.IMAGE_TAGS }}
+          dockerfiles: "./Dockerfile"
+          build-args: |
+            MVN_PROFILES=openshift
+            APP_NAME=${{ env.APP_NAME }}
+            APP_VERSION=${{ env.LATEST_VERSION }}
