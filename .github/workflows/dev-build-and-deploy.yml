@@ -1,4 +1,4 @@
-name: Maven Tests
+name: Dev Build, Push and Deploy
 
 on:
   push:
@@ -10,7 +10,7 @@ env:
   IMAGE_TAGS: ""
 
 jobs:
-  dev-build:
+  build:
     name: Build and deploy to OpenShift
     runs-on: ubuntu-latest
     environment: dev
