@@ -3,12 +3,17 @@ name: Maven Tests
 on:
   push:
     branches:
-      - main
-  workflow_dispatch: {}
+      - feature/migrating-pipelines-to-github
+#  workflow_dispatch: {}
+
+env:
+  IMAGE_TAGS: ""
 
 jobs:
   dev-build:
+    name: Build and deploy to OpenShift
     runs-on: ubuntu-latest
+    environment: dev
 
     steps:
       - uses: actions/checkout@v2
@@ -32,3 +37,8 @@ jobs:
         run: |
           _version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "LATEST_VERSION=$_version" >> $GITHUB_ENV
+
+      - name: Determine image tags
+        if: env.IMAGE_TAGS == ''
+        run: |
+          echo "IMAGE_TAGS=latest ${LATEST_VERSION}-${GITHUB_SHA::8}" | tee -a $GITHUB_ENV
