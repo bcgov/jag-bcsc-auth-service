@@ -1,14 +1,14 @@
 name: Dev Build, Push and Deploy
 
-on:
-  push:
-    branches:
-      - main
-      - feature/migrating-pipelines-to-github
-  workflow_dispatch:
-    branches:
-      - main
-      - feature/migrating-pipelines-to-github
+on: workflow_dispatch
+#  push:
+#    branches:
+#      - main
+#      - feature/migrating-pipelines-to-github
+#  workflow_dispatch:
+#    branches:
+#      - main
+#      - feature/migrating-pipelines-to-github
 
 env:
   IMAGE_TAG: ""
