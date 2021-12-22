@@ -3,9 +3,11 @@ name: Dev Build, Push and Deploy
 on:
   push:
     branches:
+      - main
       - feature/migrating-pipelines-to-github
   workflow_dispatch:
     branches:
+      - main
       - feature/migrating-pipelines-to-github
 
 env:
