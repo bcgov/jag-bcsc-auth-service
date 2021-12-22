@@ -12,7 +12,7 @@ on:
 
 env:
   IMAGE_TAG: ""
-  APP_NAME: "bcsc-auth-service"
+  APP_NAME: "bcsc-auth"
 
 jobs:
   build:
