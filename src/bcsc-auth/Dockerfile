@@ -13,7 +13,7 @@ ENV MVN_PROFILES=${MVN_PROFILES}
 
 COPY . .
 
-RUN mvn -B clean package \
+RUN mvn -B --no-transfer-progress  clean package \
         -Dmaven.test.skip=true \
         -DproxySet=${PROXY_SET} \
         -DproxyHost=${PROXY_HOST} \
