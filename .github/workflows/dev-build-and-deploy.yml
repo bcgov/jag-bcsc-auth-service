@@ -4,7 +4,9 @@ on:
   push:
     branches:
       - feature/migrating-pipelines-to-github
-#  workflow_dispatch: {}
+  workflow_dispatch:
+    branches:
+      - feature/migrating-pipelines-to-github
 
 env:
   IMAGE_TAGS: ""
