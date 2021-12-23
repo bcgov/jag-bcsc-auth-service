@@ -31,7 +31,7 @@ jobs:
         with:
           openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
-          namespace: ${{ env.OPENSHIFT_NAMESPACE }}
+          namespace: ${{ secrets.OPENSHIFT_NAMESPACE }}
 
       - name: Cache local Maven repository
         uses: actions/cache@v2
@@ -64,8 +64,8 @@ jobs:
         with:
           push: true
           tags: |
-            ${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY }}${{ env.OPENSHIFT_NAMESPACE }}/${{ env.APP_NAME }}:latest
-            ${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY }}${{ env.OPENSHIFT_NAMESPACE }}/${{ env.APP_NAME }}:${{ env.IMAGE_TAG }}
+            ${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY }}/${{ secrets.OPENSHIFT_NAMESPACE }}/${{ env.APP_NAME }}:latest
+            ${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY }}/${{ secrets.OPENSHIFT_NAMESPACE }}/${{ env.APP_NAME }}:${{ env.IMAGE_TAG }}
           context: "./src/bcsc-auth/"
           build-args: |
             MVN_PROFILES=openshift
