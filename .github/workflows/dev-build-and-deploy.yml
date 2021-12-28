@@ -9,6 +9,11 @@ on:
     branches:
       - main
       - feature/migrating-pipelines-to-github
+    env:
+      description: 'Target Environment (dev, test, or prod)'
+      required: true
+#      default: 'dev'
+      default: 'test'
 
 env:
   IMAGE_TAG: ""
@@ -16,9 +21,10 @@ env:
 
 jobs:
   build:
+    if: github.event.inputs.env == 'dev'
     name: Build and deploy to OpenShift
     runs-on: ubuntu-latest
-    environment: dev
+    environment: ${{ github.event.inputs.env }}
     defaults:
       run:
         working-directory: src/bcsc-auth
