@@ -20,7 +20,7 @@ env:
   APP_NAME: "bcsc-auth"
 
 jobs:
-  test:
+  build-artifact:
     name: Test Application
     runs-on: ubuntu-latest
     defaults:
@@ -37,8 +37,14 @@ jobs:
           cache: 'maven'
       - name: Build with Maven
         run: ./mvnw -ntp clean package
+      - name: upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name:  "${{ env.APP_NAME }}.jar"
+          path: "./target/${{ env.APP_NAME }}*.jar"
 
-  build:
+
+  build-image:
 #    if: github.event.inputs.env == 'dev'
     name: Build and deploy to OpenShift
     runs-on: ubuntu-latest
