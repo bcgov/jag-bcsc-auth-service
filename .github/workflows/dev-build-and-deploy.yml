@@ -54,7 +54,7 @@ jobs:
       run:
         working-directory: src/bcsc-auth
     needs:
-      - test
+      - build-artifact
 
     steps:
       - uses: actions/checkout@v2
