@@ -12,7 +12,8 @@ on:
     env:
       description: 'Target Environment (dev, test, or prod)'
       required: true
-      default: 'dev'
+#      default: 'dev'
+      default: 'test'
 
 env:
   IMAGE_TAG: ""
