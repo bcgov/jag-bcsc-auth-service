@@ -33,8 +33,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+          cache: 'maven'
       - name: Build with Maven
-        run: ./mvnw -ntp clean test
+        run: ./mvnw -ntp clean package
 
   build:
 #    if: github.event.inputs.env == 'dev'
