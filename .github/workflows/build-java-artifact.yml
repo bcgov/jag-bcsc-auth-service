@@ -29,6 +29,7 @@ jobs:
           cache: 'maven'
 
       - name: Build with Maven
+        working-directory: ${{ input.working-directory }}
         run: ./mvnw -ntp --batch-mode clean package
 
       - name: upload artifact
