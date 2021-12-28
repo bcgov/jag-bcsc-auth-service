@@ -18,7 +18,6 @@ on:
 env:
   IMAGE_TAG: ""
   APP_NAME: "bcsc-auth"
-  environment: ${{ github.event.inputs.env }}
 
 jobs:
   test:
@@ -35,14 +34,15 @@ jobs:
         with:
           java-version: 1.8
       - name: Build with Maven
-        run: mvn clean test
+        run: mvn -ntp clean test
 #        working-directory: src/bcsc-auth
 
   build:
 #    if: github.event.inputs.env == 'dev'
     name: Build and deploy to OpenShift
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.env }}
+#    environment: ${{ github.event.inputs.env }}
+    environment: 'dev'
     defaults:
       run:
         working-directory: src/bcsc-auth
