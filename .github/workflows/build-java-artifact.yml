@@ -4,6 +4,9 @@ on:
       app_name:
         required: true
         type: string
+      working-directory:
+        required: true
+        type: string
       java_version:
         required: false
         type: number
@@ -32,4 +35,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name:  "${{ env.APP_NAME }}.jar"
-          path: "src/bcsc-auth/target/${{ env.APP_NAME }}*.jar"
+          path: "${{ env.working-directory }}/target/${{ env.APP_NAME }}*.jar"
