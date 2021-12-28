@@ -22,12 +22,10 @@ env:
 jobs:
   build-artifact:
     name: Build the Artifact after testing it
-    runs-on: ubuntu-latest
-    steps:
-      - uses: bcgov/jag-bcsc-auth-service/.github/workflows/build-java-artifact.yml@0759e099dd3df76be466de90664debfbe2d75540
-        with:
-          app_name: ${{ env.APP_NAME }}
-          working-directory: src/bcsc-auth
+    uses: bcgov/jag-bcsc-auth-service/.github/workflows/build-java-artifact.yml@0759e099dd3df76be466de90664debfbe2d75540
+    with:
+      app_name: ${{ env.APP_NAME }}
+      working-directory: src/bcsc-auth
 
   build-image:
 #    if: github.event.inputs.env == 'dev'
