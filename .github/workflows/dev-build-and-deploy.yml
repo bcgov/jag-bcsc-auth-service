@@ -30,11 +30,12 @@ env:
 jobs:
   build-artifact:
     name: Build the Artifact after testing it
-    if: github.event_name == 'push'
+#    if: github.event_name == 'push' || github.event.inputs.env == 'dev'
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.env == 'dev'
     uses: bcgov/jag-bcsc-auth-service/.github/workflows/build-java-artifact.yml@main
     with:
       app_name: 'bcsc-auth'
-      working_directory: 'bcsc-auth'
+      working_directory: 'src/bcsc-auth'
 
   build-image:
     name: Build and deploy to OpenShift
