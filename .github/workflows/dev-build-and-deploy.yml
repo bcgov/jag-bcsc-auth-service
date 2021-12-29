@@ -4,21 +4,13 @@ on:
   push:
     branches:
       - main
-      - feature/migrating-pipelines-to-github
   workflow_dispatch:
     branches:
       - main
-      - feature/migrating-pipelines-to-github
-    inputs:
-      env:
-        description: 'Target Environment (dev, test, or prod)'
-        required: true
-        default: 'dev'
 
 jobs:
   build-artifact:
     name: Build the Artifact after testing it
-    if: github.event_name == 'push' || github.event.inputs.env == 'dev'
     uses: bcgov/jag-bcsc-auth-service/.github/workflows/build-java-artifact.yml@main
     with:
       app_name: 'bcsc-auth'
