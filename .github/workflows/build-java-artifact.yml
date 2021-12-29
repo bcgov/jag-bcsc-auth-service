@@ -23,7 +23,9 @@ jobs:
 
       - name: Printing Inputs
         run: |
-          echo ${{ inputs }}
+          echo "java_version:      ${{ inputs.java_version }}"
+          echo "app_name:          ${{ inputs.app_name }}"
+          echo "working_directory: ${{ inputs.working_directory}}"
 
       - name: "Set up JDK ${{ inputs.java_version }}"
         uses: actions/setup-java@v2
