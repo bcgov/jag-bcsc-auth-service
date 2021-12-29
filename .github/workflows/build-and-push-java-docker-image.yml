@@ -37,7 +37,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: "${{ inputs.app_name }}.jar"
-          path: "${{ inputs.working_directory }}/${{ inputs.app_name }}.jar"
+          path: "${{ inputs.working_directory }}/target/${{ inputs.app_name }}.jar"
 
       - name: Authenticate and set context
         uses: redhat-actions/oc-login@v1
