@@ -9,18 +9,19 @@ on:
     branches:
       - main
       - feature/migrating-pipelines-to-github
-    env:
-      description: 'Target Environment (dev, test, or prod)'
-      required: true
-      default: 'dev'
-    app_name:
-      description: 'Name of the Application'
-      required: true
-      default: 'bcsc-auth'
-    working_directory:
-      description: 'Directory to be used as base'
-      required: true
-      default: 'src/bcsc-auth'
+    inputs:
+      env:
+        description: 'Target Environment (dev, test, or prod)'
+        required: true
+        default: 'dev'
+      app_name:
+        description: 'Name of the Application'
+        required: true
+        default: 'bcsc-auth'
+      working_directory:
+        description: 'Directory to be used as base'
+        required: true
+        default: 'src/bcsc-auth'
 
 jobs:
   build-artifact:
