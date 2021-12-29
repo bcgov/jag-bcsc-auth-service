@@ -14,29 +14,32 @@ on:
         description: 'Target Environment (dev, test, or prod)'
         required: true
         default: 'dev'
-      app_name:
-        description: 'Name of the Application'
-        required: true
-        default: 'bcsc-auth'
-      working_directory:
-        description: 'Directory to be used as base'
-        required: true
-        default: 'src/bcsc-auth'
+#      app_name:
+#        description: 'Name of the Application'
+#        required: true
+#        default: 'bcsc-auth'
+#      working_directory:
+#        description: 'Directory to be used as base'
+#        required: true
+#        default: 'src/bcsc-auth'
+
+env:
+  APP_NAME: 'bcsc-auth'
+  WORKING_DIRECTORY: 'src/bcsc-auth'
 
 jobs:
   build-artifact:
     name: Build the Artifact after testing it
-#    if: inputs.env == 'dev'
+    if: github.event_name == 'push'
     uses: bcgov/jag-bcsc-auth-service/.github/workflows/build-java-artifact.yml@main
     with:
-      app_name: ${{ github.event.inputs.app_name | 'bcsc-auth' }}
-      working_directory: ${{ github.event.inputs.working_directory }}
+      app_name: 'bcsc-auth'
+      working_directory: 'bcsc-auth'
 
   build-image:
     name: Build and deploy to OpenShift
-#    if: github.event.inputs.env == 'dev'
-#    environment: ${{ github.event.inputs.env }}
-    environment: 'dev'
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.env == 'dev'
+    environment: ${{ github.event.inputs.env }}
     runs-on: ubuntu-latest
     defaults:
       run:
