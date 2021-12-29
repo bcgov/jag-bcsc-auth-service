@@ -24,7 +24,7 @@ jobs:
 #    if: inputs.env == 'dev'
     uses: bcgov/jag-bcsc-auth-service/.github/workflows/build-java-artifact.yml@main
     with:
-      app_name: ${{ inputs.APP_NAME }}
+      app_name: ${{ github.events.inputs.APP_NAME }}
       working_directory: src/bcsc-auth
 
   build-image:
