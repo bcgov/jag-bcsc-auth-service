@@ -13,21 +13,18 @@ on:
       description: 'Target Environment (dev, test, or prod)'
       required: true
       default: 'dev'
-#      default: 'test'
-
-env:
-  IMAGE_TAG: ""
-  APP_NAME: "bcsc-auth"
+    app_name:
+      description: 'Name of the Application'
+      required: true
+      default: 'bcsc-auth'
 
 jobs:
   build-artifact:
     name: Build the Artifact after testing it
-    env:
-      APP_NAME: "bcsc-auth"
 #    if: inputs.env == 'dev'
     uses: bcgov/jag-bcsc-auth-service/.github/workflows/build-java-artifact.yml@main
     with:
-      app_name: ${{ env.APP_NAME }}
+      app_name: ${{ inputs.APP_NAME }}
       working_directory: src/bcsc-auth
 
   build-image:
