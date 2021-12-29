@@ -34,13 +34,13 @@ jobs:
           java-version: ${{ inputs.java_version }}
           cache: 'maven'
 
-      - name: Build with Maven
-        working-directory: ${{ input.working_directory }}
-        run: >-
-          ${{ input.working_directory }}/mvnw -ntp --batch-mode clean package
-
-      - name: upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name:  "${{ env.APP_NAME }}.jar"
-          path: "${{ input.working_directory }}/target/${{ input.app_name }}*.jar"
+#      - name: Build with Maven
+#        working-directory: ${{ input.working_directory }}
+#        run: >-
+#          ${{ input.working_directory }}/mvnw -ntp --batch-mode clean package
+#
+#      - name: upload artifact
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name:  "${{ env.APP_NAME }}.jar"
+#          path: "${{ input.working_directory }}/target/${{ input.app_name }}*.jar"
