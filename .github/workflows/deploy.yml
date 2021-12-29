@@ -15,7 +15,7 @@ jobs:
     name: Deploy onto Openshit
     uses: bcgov/jag-bcsc-auth-service/.github/workflows/deploy-on-openshift.yml@main
     with:
-      env: ${{ github.event.input.env }}
+      env: ${{ github.event.inputs.env }}
     secrets:
       openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
       openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
