@@ -22,17 +22,19 @@ env:
 jobs:
   build-artifact:
     name: Build the Artifact after testing it
+    env:
+      APP_NAME: ${{ env.APP_NAME }}
 #    if: inputs.env == 'dev'
     uses: bcgov/jag-bcsc-auth-service/.github/workflows/build-java-artifact.yml@main
     with:
-      app_name: "${{ env.APP_NAME }}"
+      app_name: ${{ env.APP_NAME }}
       working_directory: src/bcsc-auth
 
   build-image:
+    name: Build and deploy to OpenShift
 #    if: github.event.inputs.env == 'dev'
 #    environment: ${{ github.event.inputs.env }}
     environment: 'dev'
-    name: Build and deploy to OpenShift
     runs-on: ubuntu-latest
     defaults:
       run:
