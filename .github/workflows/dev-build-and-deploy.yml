@@ -34,7 +34,7 @@ jobs:
   deploy:
     name: Deploy onto Openshit
     needs: build-image
-    uses: bcgov/jag-bcsc-auth-service/.github/workflows/deploy.yml@main
+    uses: bcgov/jag-bcsc-auth-service/.github/workflows/deploy-on-openshift.yml@main
     with:
       env: 'dev'
     secrets:
