@@ -22,7 +22,7 @@ env:
 jobs:
   build-artifact:
     name: Build the Artifact after testing it
-    if: inputs.env == 'dev'
+#    if: inputs.env == 'dev'
     uses: bcgov/jag-bcsc-auth-service/.github/workflows/build-java-artifact.yml@main
     with:
       app_name: $APP_NAME
