@@ -13,7 +13,6 @@ on:
 jobs:
   deploy:
     name: Deploy onto Openshit
-    needs: build-image
     uses: bcgov/jag-bcsc-auth-service/.github/workflows/deploy-on-openshift.yml@main
     with:
       env: ${{ github.events.inputs.env }}
