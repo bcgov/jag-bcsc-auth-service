@@ -30,7 +30,8 @@ jobs:
 
       - name: Build with Maven
         working-directory: ${{ input.working_directory }}
-        run: ./mvnw -ntp --batch-mode clean package
+        run: >-
+          ${{ input.working_directory }}/mvnw -ntp --batch-mode clean package
 
       - name: upload artifact
         uses: actions/upload-artifact@v2
