@@ -21,6 +21,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Printing Inputs
+        run: |
+          echo ${{ inputs.app_name }}
+          echo ${{ inputs.working_directory }}
+          echo ${{ inputs.java_version }}
+
       - name: "Set up JDK ${{ inputs.java_version }}"
         uses: actions/setup-java@v2
         with:
