@@ -33,7 +33,7 @@ jobs:
 
   deploy:
     name: Deploy onto Openshit
-    needs: build-artifact
+    needs: build-image
     uses: bcgov/jag-bcsc-auth-service/.github/workflows/deploy.yml@main
     with:
       env: 'dev'
