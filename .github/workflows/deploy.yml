@@ -1,4 +1,4 @@
-name: Dev Build, Push and Deploy
+name: Deploy on Openshift
 
 on:
   workflow_dispatch:
