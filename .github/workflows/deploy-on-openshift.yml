@@ -17,6 +17,11 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.env }}
     steps:
+      - name: Printing Inputs
+        run: |
+          echo "env: ${{ inputs.env }}"
+          echo "openshift_server_url: ${{ secrets.openshift_server_url }}"
+
       - name: Log in to OpenShift
         uses: redhat-actions/oc-login@v1
         with:
