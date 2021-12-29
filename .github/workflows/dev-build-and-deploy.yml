@@ -30,24 +30,8 @@ jobs:
 
   build-image:
     name: Build image and push it to OpenShift
-    if: github.event_name == 'push' || github.event.inputs.env == 'dev'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Cache local Maven repository
-        uses: actions/cache@v2
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-
-      - name: Get Java Project Version
-        run: |
-          _version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-          echo "LATEST_VERSION=$_version" | tee -a $GITHUB_ENV
-
-      - uses: bcgov/jag-bcsc-auth-service/.github/workflows/build-and-push-docker-image.yml@main
-        with:
-          app_name: ${{ env.APP_NAME }}
-          working_directory: ${{ env.WORKING_DIRECTORY }}
-          app_version: ${{ env.LATEST_VERSION }}
+    needs: app-version
+    uses: bcgov/jag-bcsc-auth-service/.github/workflows/build-and-push-java-docker-image.yml@main
+    with:
+      app_name: ${{ env.APP_NAME }}
+      working_directory: ${{ env.WORKING_DIRECTORY }}

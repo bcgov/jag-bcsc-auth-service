@@ -7,10 +7,6 @@ on:
       working_directory:
         required: true
         type: string
-      app_version:
-        required: true
-        type: string
-
 
 jobs:
   build-image:
@@ -37,9 +33,22 @@ jobs:
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
           namespace: ${{ secrets.OPENSHIFT_NAMESPACE }}
 
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Get Java Project Version
+        run: |
+          _version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "APP_VERSION=$_version" | tee -a $GITHUB_ENV
+
       - name: Determine image tags
         run: |
-          echo "IMAGE_TAG=${INPUTS_APP_VERSION}-${GITHUB_SHA::8}" | tee -a $GITHUB_ENV
+          echo "IMAGE_TAG=${APP_VERSION}-${GITHUB_SHA::8}" | tee -a $GITHUB_ENV
 
       - name: Docker Login
         uses: docker/login-action@v1
@@ -59,4 +68,4 @@ jobs:
           context: "./${{ inputs.working_directory }}"
           build-args: |
             APP_NAME=${{ inputs.app_name }}
-            APP_VERSION=${{ env.LATEST_VERSION }}
+            APP_VERSION=${{ env.APP_VERSION }}
