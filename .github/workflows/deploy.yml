@@ -9,8 +9,6 @@ on:
         required: true
       openshift_token:
         required: true
-      openshift_external_repository:
-        required: true
       openshift_namespace:
         required: true
 
