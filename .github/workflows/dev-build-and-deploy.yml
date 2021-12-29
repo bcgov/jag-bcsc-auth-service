@@ -14,14 +14,6 @@ on:
         description: 'Target Environment (dev, test, or prod)'
         required: true
         default: 'dev'
-#      app_name:
-#        description: 'Name of the Application'
-#        required: true
-#        default: 'bcsc-auth'
-#      working_directory:
-#        description: 'Directory to be used as base'
-#        required: true
-#        default: 'src/bcsc-auth'
 
 env:
   APP_NAME: 'bcsc-auth'
@@ -37,33 +29,10 @@ jobs:
       working_directory: 'src/bcsc-auth'
 
   build-image:
-    name: Build and deploy to OpenShift
-#    if: github.event_name == 'push' || github.event.inputs.env == 'dev'
-    if: github.event_name == 'workflow_dispatch' && github.event.inputs.env == 'dev'
-    environment: ${{ github.event.inputs.env }}
+    name: Build image and push it to OpenShift
+    if: github.event_name == 'push' || github.event.inputs.env == 'dev'
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: src/bcsc-auth
-    needs:
-      - build-artifact
-
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Download artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: "${{ env.APP_NAME }}.jar"
-          path: "src/bcsc-auth/target/${{ env.APP_NAME }}.jar"
-
-      - name: Authenticate and set context
-        uses: redhat-actions/oc-login@v1
-        with:
-          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
-          openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
-          namespace: ${{ secrets.OPENSHIFT_NAMESPACE }}
-
       - name: Cache local Maven repository
         uses: actions/cache@v2
         with:
@@ -77,27 +46,8 @@ jobs:
           _version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "LATEST_VERSION=$_version" | tee -a $GITHUB_ENV
 
-      - name: Determine image tags
-        if: env.IMAGE_TAG == ''
-        run: |
-          echo "IMAGE_TAG=${LATEST_VERSION}-${GITHUB_SHA::8}" | tee -a $GITHUB_ENV
-
-      - name: Docker Login
-        uses: docker/login-action@v1
+      - uses: bcgov/jag-bcsc-auth-service/.github/workflows/build-and-push-docker-image.yml@main
         with:
-          username: ${{ secrets.OPENSHIFT_EXTERNAL_SA_USERNAME }}
-          password: ${{ secrets.OPENSHIFT_EXTERNAL_SA_PASSWORD }}
-          registry: ${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY }}
-
-      - name: Build from Dockerfile
-        id: build-image
-        uses: docker/build-push-action@v2
-        with:
-          push: true
-          tags: |
-            ${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY }}/${{ secrets.OPENSHIFT_NAMESPACE }}/${{ env.APP_NAME }}:latest
-            ${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY }}/${{ secrets.OPENSHIFT_NAMESPACE }}/${{ env.APP_NAME }}:${{ env.IMAGE_TAG }}
-          context: "./src/bcsc-auth/"
-          build-args: |
-            APP_NAME=${{ env.APP_NAME }}
-            APP_VERSION=${{ env.LATEST_VERSION }}
+          app_name: ${{ env.APP_NAME }}
+          working_directory: ${{ env.WORKING_DIRECTORY }}
+          app_version: ${{ env.LATEST_VERSION }}
