@@ -17,6 +17,10 @@ on:
       description: 'Name of the Application'
       required: true
       default: 'bcsc-auth'
+    working_directory:
+      description: 'Directory to be used as base'
+      required: true
+      default: 'src/bcsc-auth'
 
 jobs:
   build-artifact:
@@ -24,8 +28,8 @@ jobs:
 #    if: inputs.env == 'dev'
     uses: bcgov/jag-bcsc-auth-service/.github/workflows/build-java-artifact.yml@main
     with:
-      app_name: ${{ github.events.inputs.APP_NAME }}
-      working_directory: src/bcsc-auth
+      app_name: ${{ github.event.inputs.app_name }}
+      working_directory: ${{ github.event.inputs.working_directory }}
 
   build-image:
     name: Build and deploy to OpenShift
