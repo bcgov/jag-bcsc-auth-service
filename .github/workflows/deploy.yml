@@ -1,0 +1,27 @@
+on:
+  workflow_call:
+    inputs:
+      env:
+        type: string
+        required: true
+    secrets:
+      openshift_server_url:
+        required: true
+      openshift_token:
+        required: true
+      openshift_external_repository:
+        required: true
+      openshift_namespace:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.env }}
+    steps:
+      - name: Log in to OpenShift
+        uses: redhat-actions/oc-login@v1
+        with:
+          openshift_server_url: ${{ secrets.openshift_server_url }}
+          openshift_token: ${{ secrets.openshift_token }}
+          namespace: ${{ secrets.openshift_namespace }}
