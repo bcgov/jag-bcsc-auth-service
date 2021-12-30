@@ -1,0 +1,5 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: {{ .Values.image_stream_name | default .Chart.Name }}
+  namespace: {{ .Values.global.environment }}
