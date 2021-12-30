@@ -52,7 +52,7 @@ jobs:
 
       - name: Define namespace
         run: >-
-          echo OPENSHIFT_NAMESPACE="${{ secrets.openshift_license_plate }}-${{ inputs.env }}"
+          echo OPENSHIFT_NAMESPACE="${{ secrets.openshift_license_plate }}-${{ inputs.env }}" | tee -a $GITHUB_ENV
 
       - name: Authenticate and set context
         uses: redhat-actions/oc-login@v1
