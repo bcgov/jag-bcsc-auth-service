@@ -13,10 +13,12 @@ on:
 jobs:
   deploy:
     name: Deploy onto Openshit
-    uses: bcgov/jag-bcsc-auth-service/.github/workflows/deploy-on-openshift.yml@main
+    uses: bcgov/jag-bcsc-auth-service/.github/workflows/deploy-helm-on-openshift.yml@main
     with:
       env: ${{ github.event.inputs.env }}
+      working_directory: '.gitops/bcsc-auth-service'
     secrets:
       openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
       openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
       openshift_namespace: ${{ secrets.OPENSHIFT_NAMESPACE }}
+      github_token: ${{ secrets.GITHUB_TOKEN }}

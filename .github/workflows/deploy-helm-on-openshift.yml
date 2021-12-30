@@ -4,12 +4,17 @@ on:
       env:
         type: string
         required: true
+      working_directory:
+        type: string
+        required: true
     secrets:
       openshift_server_url:
         required: true
       openshift_token:
         required: true
       openshift_namespace:
+        required: true
+      github_token:
         required: true
 
 jobs:
@@ -28,3 +33,10 @@ jobs:
           openshift_server_url: ${{ secrets.openshift_server_url }}
           openshift_token: ${{ secrets.openshift_token }}
           namespace: ${{ secrets.openshift_namespace }}
+
+      - name: Run chart-releaser
+        uses: helm/chart-releaser-action@v1
+        with:
+          charts_dir: ${{ inputs.working_directory }}
+        env:
+          CR_TOKEN: "${{ secrets.github_token }}"
