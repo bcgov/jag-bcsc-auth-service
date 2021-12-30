@@ -15,7 +15,7 @@ jobs:
       working_directory: 'src/bcsc-auth'
 
   app-version:
-    uses: bcgov/jag-bcsc-auth-service/.github/workflows/java-unit-tests.yml@main
+    uses: bcgov/jag-bcsc-auth-service/.github/workflows/java-maven-app-version.yml@main
     with:
       working_directory: 'src/bcsc-auth'
 
