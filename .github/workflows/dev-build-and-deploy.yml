@@ -9,20 +9,27 @@ on:
       - main
 
 jobs:
-  build-artifact:
-    name: Build the Artifact after testing it
-    uses: bcgov/jag-bcsc-auth-service/.github/workflows/build-java-artifact.yml@main
+  unit-test:
+    uses: bcgov/jag-bcsc-auth-service/.github/workflows/reusable/java-unit-tests.yml@main
     with:
-      app_name: 'bcsc-auth'
+      working_directory: 'src/bcsc-auth'
+
+  app-version:
+    uses: bcgov/jag-bcsc-auth-service/.github/workflows/reusable/java-unit-tests.yml@main
+    with:
       working_directory: 'src/bcsc-auth'
 
   build-image:
     name: Build image and push it to OpenShift
-    needs: build-artifact
-    uses: bcgov/jag-bcsc-auth-service/.github/workflows/build-and-push-java-docker-image.yml@main
+    needs:
+    - unit-test
+    - app-version
+    uses: bcgov/jag-bcsc-auth-service/.github/workflows/docker-build-and-push-image.yml@main
     with:
       app_name: 'bcsc-auth'
+      app_version: "${{ jobs.app-version.outputs.app-version }}"
       working_directory: 'src/bcsc-auth'
+      dockerfile: 'multi-stage.Dockerfile'
     secrets:
       openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
       openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
@@ -30,16 +37,16 @@ jobs:
       openshift_namespace: ${{ secrets.OPENSHIFT_NAMESPACE }}
       username: ${{ secrets.OPENSHIFT_EXTERNAL_SA_USERNAME }}
       password: ${{ secrets.OPENSHIFT_EXTERNAL_SA_PASSWORD }}
-
-  deploy:
-    name: Deploy onto Openshit
-    needs: build-image
-    uses: bcgov/jag-bcsc-auth-service/.github/workflows/deploy-helm-on-openshift.yml@main
-    with:
-      env: 'dev'
-      working_directory: '.gitops/bcsc-auth-service'
-      app_name: 'bcsc-auth'
-    secrets:
-      openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
-      openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
-      openshift_namespace: ${{ secrets.OPENSHIFT_NAMESPACE }}
+#
+#  deploy:
+#    name: Deploy onto Openshit
+#    needs: build-image
+#    uses: bcgov/jag-bcsc-auth-service/.github/workflows/deploy-helm-on-openshift.yml@main
+#    with:
+#      env: 'dev'
+#      working_directory: '.gitops/bcsc-auth-service'
+#      app_name: 'bcsc-auth'
+#    secrets:
+#      openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
+#      openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
+#      openshift_namespace: ${{ secrets.OPENSHIFT_NAMESPACE }}
