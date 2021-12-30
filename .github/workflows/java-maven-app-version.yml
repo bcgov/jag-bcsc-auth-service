@@ -48,3 +48,4 @@ jobs:
         run: |
           _version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "::set-output name=app-version::$_version"
+          echo $_version
