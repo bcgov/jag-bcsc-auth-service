@@ -10,6 +10,10 @@ on:
       working_directory:
         type: string
         required: true
+      values:
+        type: string
+        required: false
+        default: ""
     secrets:
       openshift_server_url:
         required: true
