@@ -26,6 +26,8 @@ jobs:
           echo "java_version:      ${{ inputs.java_version }}"
           echo "working_directory: ${{ inputs.working_directory}}"
 
+      - uses: actions/checkout@v2
+
       - name: "Set up JDK ${{ inputs.java_version }}"
         uses: actions/setup-java@v2
         with:
