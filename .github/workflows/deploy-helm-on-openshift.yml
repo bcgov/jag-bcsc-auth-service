@@ -35,7 +35,7 @@ jobs:
           namespace: ${{ secrets.openshift_namespace }}
 
       - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1
+        uses: helm/chart-releaser-action@v1.2.1
         with:
           charts_dir: ${{ inputs.working_directory }}
         env:
