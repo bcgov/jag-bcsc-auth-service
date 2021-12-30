@@ -7,13 +7,13 @@ ARG PROXY_SET=false
 ARG PROXY_HOST=
 ARG PROXY_PORT=
 
-ARG MVN_PROFILES
+ARG MVN_PROFILES=openshift
 
 ENV MVN_PROFILES=${MVN_PROFILES}
 
 COPY . .
 
-RUN mvn -B --no-transfer-progress  clean package \
+RUN mvn --batch-mode --no-transfer-progress clean package \
         -Dmaven.test.skip=true \
         -DproxySet=${PROXY_SET} \
         -DproxyHost=${PROXY_HOST} \
