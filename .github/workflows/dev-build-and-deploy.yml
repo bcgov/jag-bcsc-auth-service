@@ -53,5 +53,5 @@ jobs:
         nameOverride: bcsc-auth-service-test
     secrets:
       openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
-      openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
+      openshift_token: ${{ secrets.OPENSHIFT_PIPELINE_TOKEN }}
       openshift_license_plate: ${{ secrets.OPENSHIFT_LICENSE_PLATE }}
