@@ -19,6 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       app-version: ${{ steps.get-version.outputs.app-version }}
+    defaults:
+      run:
+        working-directory: ${{ inputs.working_directory }}
 
     steps:
       - name: Printing Inputs
