@@ -25,7 +25,7 @@ on:
         required: true
       openshift_external_repository:
         required: true
-    openshift_license_plate:
+      openshift_license_plate:
         required: true
       username:
         required: true
