@@ -9,16 +9,22 @@ on:
         description: "The target environment 'test' or 'prod'"
         required: true
         default: 'test'
+      app_verion:
+        description: "What image version to deploy"
+        required: true
 
 jobs:
   deploy:
     name: Deploy onto Openshit
-    uses: bcgov/jag-bcsc-auth-service/.github/workflows/deploy-helm-on-openshift.yml@main
+    uses: bcgov/jag-bcsc-auth-service/.github/workflows/helm-deploy.yml@main
     with:
-      env: ${{ github.event.inputs.env }}
-      app_name: 'bcsc-auth'
+      env: ${{ inputs.env }}
       working_directory: '.gitops/bcsc-auth-service'
+      app_name: 'bcsc-auth'
+      values: |
+        nameOverride: bcsc-auth-service-test
+        tag: ${{ inputs.app_version }}
     secrets:
       openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
       openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
-      openshift_namespace: ${{ secrets.OPENSHIFT_NAMESPACE }}
+      openshift_license_plate: ${{ secrets.OPENSHIFT_LICENSE_PLATE }}

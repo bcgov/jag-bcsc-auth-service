@@ -19,7 +19,7 @@ on:
         required: true
       openshift_token:
         required: true
-      openshift_namespace:
+      openshift_license_plate:
         required: true
 
 jobs:
@@ -35,18 +35,22 @@ jobs:
           echo "app_name: ${{ inputs.app_name }}"
           echo "working_directory: ${{ inputs.working_directory }}"
 
+      - name: Define namespace
+        run: >-
+          echo OPENSHIFT_NAMESPACE=${{ secrets.openshift_license_plate }}-${{ inputs.env }}
+
       - name: Log in to OpenShift
         uses: redhat-actions/oc-login@v1
         with:
           openshift_server_url: ${{ secrets.openshift_server_url }}
           openshift_token: ${{ secrets.openshift_token }}
-          namespace: ${{ secrets.openshift_namespace }}
+          namespace: ${{ env.OPENSHIFT_NAMESPACE }}
 
       - name: Run chart-releaser
         uses: deliverybot/helm@v1
         with:
           release: ${{ inputs.app_name }}
-          namespace: ${{ secrets.openshift_namespace }}
+          namespace: ${{ env.OPENSHIFT_NAMESPACE }}
           chart: ${{ inputs.working_directory }}
           values: ${{ inputs.values }}
           dry-run: true

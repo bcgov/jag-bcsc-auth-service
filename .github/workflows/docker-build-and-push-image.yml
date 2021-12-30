@@ -14,6 +14,10 @@ on:
         required: false
         type: string
         default: Dockerfile
+      env:
+        required: false
+        type: string
+        default: dev
     secrets:
       openshift_server_url:
         required: true
@@ -21,7 +25,7 @@ on:
         required: true
       openshift_external_repository:
         required: true
-      openshift_namespace:
+    openshift_license_plate:
         required: true
       username:
         required: true
@@ -31,7 +35,6 @@ on:
 jobs:
   build-image:
     name: Build and deploy image to OpenShift
-    environment: 'dev'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -47,12 +50,17 @@ jobs:
           echo "working_directory: ${{ inputs.working_directory}}"
           echo "dockerfile: ${{ inputs.dockerfile}}"
 
+      - name: Define namespace
+        run: >-
+          echo OPENSHIFT_NAMESPACE=${{ secrets.openshift_license_plate }}-${{ inputs.env }}
+
       - name: Authenticate and set context
         uses: redhat-actions/oc-login@v1
         with:
           openshift_server_url: ${{ secrets.openshift_server_url }}
           openshift_token: ${{ secrets.openshift_token }}
-          namespace: ${{ secrets.openshift_namespace }}
+          namespace: ${{ env.OPENSHIFT_NAMESPACE }}
+
 
       - name: Determine image tags
         run: |
@@ -71,8 +79,8 @@ jobs:
         with:
           push: true
           tags: |
-            ${{ secrets.openshift_external_repository }}/${{ secrets.openshift_namespace }}/${{ inputs.app_name }}:latest
-            ${{ secrets.openshift_external_repository }}/${{ secrets.openshift_namespace }}/${{ inputs.app_name }}:${{ env.IMAGE_TAG }}
+            ${{ secrets.openshift_external_repository }}/${{ env.OPENSHIFT_NAMESPACE }}/${{ inputs.app_name }}:latest
+            ${{ secrets.openshift_external_repository }}/${{ env.OPENSHIFT_NAMESPACE }}/${{ inputs.app_name }}:${{ env.IMAGE_TAG }}
           context: "./${{ inputs.working_directory }}"
           file: "./${{ inputs.working_directory }}/${{ inputs.dockerfile }}"
           build-args: |
