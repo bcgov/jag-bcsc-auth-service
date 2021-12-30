@@ -1,1 +1,23 @@
-* text=auto
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "bcsc-auth-service.name" . }}
+  labels:
+    {{- include "bcsc-auth-service.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "bcsc-auth-service.name" . }}
+  template:
+    metadata:
+      name: {{ include "bcsc-auth-service.name" . }}
+      labels:
+        app: {{ include "bcsc-auth-service.name" . }}
+    spec:
+      containers:
+        - name: {{ include "bcsc-auth-service.name" . }}
+          image: {{ include "bcsc-auth-service.registry" . }}:{{ .Values.image.tag | default .Chart.AppVersion }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+      restartPolicy: Always
+

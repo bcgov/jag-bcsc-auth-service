@@ -60,3 +60,11 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{- define "bcsc-auth-service.registry" -}}
+{{- if .Values.image.openshiftRegistry }}
+{{- .Values.image.registry -}}/{{- .Release.Namespace -}}/{{- .Chart.Name -}}
+{{- else }}
+{{- .Values.image.registry -}}
+{{- end -}}
+{{- end -}}

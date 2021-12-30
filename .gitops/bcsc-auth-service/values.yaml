@@ -1,4 +1,12 @@
-global:
-  environment: 9041f4-dev
-bcsc-auth-service-support:
-  image_stream_name: bcsc-auth
+nameOverride: ""
+fullnameOverride: ""
+
+image:
+  openshiftRegistry: true
+  registry: image-registry.apps.silver.devops.gov.bc.ca
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+labels:
+
