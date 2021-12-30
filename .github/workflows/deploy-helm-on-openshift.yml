@@ -4,6 +4,9 @@ on:
       env:
         type: string
         required: true
+      app_name:
+        type: string
+        required: true
       working_directory:
         type: string
         required: true
@@ -35,8 +38,8 @@ jobs:
           namespace: ${{ secrets.openshift_namespace }}
 
       - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.2.1
+        uses: deliverybot/helm@v1
         with:
-          charts_dir: ${{ inputs.working_directory }}
-        env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          release: ${{ inputs.app_name }}
+          namespace: ${{ secrets.openshift_namespace }}
+          chart: ${{ inputs.working_directory }}
