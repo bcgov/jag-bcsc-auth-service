@@ -12,7 +12,7 @@ on:
 
 jobs:
   build-artifact:
-    name: Build the Artifact after testing it
+    name: Java Maven Test
     runs-on: ubuntu-latest
 
     steps:
