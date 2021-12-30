@@ -26,6 +26,7 @@ jobs:
     - app-version
     uses: bcgov/jag-bcsc-auth-service/.github/workflows/docker-build-and-push-image.yml@main
     with:
+      env: 'dev'
       app_name: 'bcsc-auth'
       app_version: "${{ needs.app-version.outputs.app-version }}"
       working_directory: 'src/bcsc-auth'

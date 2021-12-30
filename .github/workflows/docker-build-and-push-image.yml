@@ -52,7 +52,7 @@ jobs:
 
       - name: Define namespace
         run: >-
-          echo OPENSHIFT_NAMESPACE=${{ secrets.openshift_license_plate }}-${{ inputs.env }}
+          echo OPENSHIFT_NAMESPACE="${{ secrets.openshift_license_plate }}-${{ inputs.env }}"
 
       - name: Authenticate and set context
         uses: redhat-actions/oc-login@v1
@@ -60,7 +60,6 @@ jobs:
           openshift_server_url: ${{ secrets.openshift_server_url }}
           openshift_token: ${{ secrets.openshift_token }}
           namespace: ${{ env.OPENSHIFT_NAMESPACE }}
-
 
       - name: Determine image tags
         run: |
