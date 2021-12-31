@@ -65,5 +65,5 @@ jobs:
         run: >-
           eval helm install ${{ inputs.app_name }} ${{ inputs.working_directory }} 
           --namespace ${{ env.OPENSHIFT_NAMESPACE }}
-          -f {{ inputs.values-file }}.yml
+          -f ${{ inputs.values-file }}
           ${{ env.SET_OVERRIDES }}
