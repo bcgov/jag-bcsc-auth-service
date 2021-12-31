@@ -74,3 +74,4 @@ jobs:
           --namespace ${{ env.OPENSHIFT_NAMESPACE }}
           -f "${{ inputs.working_directory }}/${{ inputs.values-file }}"
           ${{ env.SET_OVERRIDES }}
+          --debug
