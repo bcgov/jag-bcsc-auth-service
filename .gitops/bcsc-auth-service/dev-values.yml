@@ -7,8 +7,7 @@ envFrom:
   secrets:
     - bcsc-auth-service-secrets
     - bcsc-jwt-secret
-    - name: bcsc-client-return-url
-      prefix: BCSC_SCOPE_
+    - bcsc-oauth-secret
     - name: bcsc-client-return-url
       prefix: BCSC_RETURN_URI_
     - name: bcsc-client-scope
