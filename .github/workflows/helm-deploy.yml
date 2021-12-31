@@ -51,7 +51,7 @@ jobs:
         with:
           release: 'nginx'
           namespace: >-
-            ${{ inputs.openshift_license_plate }}-tools
+            ${{ inputs.openshift_license_plate }}-dev
           chart: 'app'
           token: '${{ github.token }}'
           values: |
