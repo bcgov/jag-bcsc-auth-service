@@ -17,7 +17,7 @@ on:
       values-file:
         type: string
         required: false
-        default: "values.yml"
+        default: "values-file.yml"
     secrets:
       openshift_server_url:
         required: true
@@ -40,7 +40,7 @@ jobs:
           echo "app_name: ${{ inputs.app_name }}"
           echo "working_directory: ${{ inputs.working_directory }}"
           echo "values: ${{ inputs.values }}"
-          echo "values-file: ${{ inputs.values-file }}"
+          echo "values-file: ${{ inputs.working_directory }}"
 
       - name: Define namespace
         run: >-
@@ -61,9 +61,15 @@ jobs:
           done
           echo SET_OVERRIDES="$overrides" | tee -a $GITHUB_ENV
 
+      - name: create the values file
+        run: |
+          if [ ! -d "${{ inputs.working_directory }}/${{ inputs.values-file }}" ]
+            then touch "${working_directory}/${values_file}"
+          fi
+
       - name: Run chart-releaser
         run: >-
           eval helm install ${{ inputs.app_name }} ${{ inputs.working_directory }} 
           --namespace ${{ env.OPENSHIFT_NAMESPACE }}
-          -f ${{ inputs.values-file }}
+          -f "${{ inputs.working_directory }}/${{ inputs.values-file }}"
           ${{ env.SET_OVERRIDES }}
