@@ -57,7 +57,7 @@ jobs:
         run: |
           overrides=''
           for arg in "${{ inputs.values }}";do
-            overrides="overrides --set $arg"
+            overrides="$overrides --set $arg"
           done
           echo SET_OVERRIDES="$overrides" | tee -a $GITHUB_ENV
 

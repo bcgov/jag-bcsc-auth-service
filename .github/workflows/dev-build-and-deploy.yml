@@ -51,7 +51,7 @@ jobs:
       app_name: 'bcsc-auth'
       values-file: 'dev-values.yml'
       values: |
-        nameOverride: bcsc-auth-service-test
+        nameOverride=bcsc-auth-service-test
     secrets:
       openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
       openshift_token: ${{ secrets.OPENSHIFT_PIPELINE_TOKEN }}
