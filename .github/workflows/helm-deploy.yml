@@ -34,6 +34,7 @@ jobs:
           echo "env: ${{ inputs.env }}"
           echo "app_name: ${{ inputs.app_name }}"
           echo "working_directory: ${{ inputs.working_directory }}"
+          echo "values: ${{ inputs.values }}"
 
       - name: Define namespace
         run: >-
@@ -57,4 +58,3 @@ jobs:
           helm install ${{ inputs.app_name }} ${{ inputs.working_directory }} 
           --namespace ${{ env.OPENSHIFT_NAMESPACE }}
           -f values.yml
-          --dry-run

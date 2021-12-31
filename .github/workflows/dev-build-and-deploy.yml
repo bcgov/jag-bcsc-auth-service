@@ -51,7 +51,9 @@ jobs:
       app_name: 'bcsc-auth'
       values: |
         nameOverride: bcsc-auth-service-test
-        image.tag: ${{ needs.app-version.outputs.app-version }}
+        image:
+          tag: latest
+          pullPolicy: Always
     secrets:
       openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
       openshift_token: ${{ secrets.OPENSHIFT_PIPELINE_TOKEN }}
