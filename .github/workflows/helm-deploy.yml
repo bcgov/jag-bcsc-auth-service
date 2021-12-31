@@ -62,9 +62,10 @@ jobs:
           echo SET_OVERRIDES="$overrides" | tee -a $GITHUB_ENV
 
       - name: create the values file
+        working-directory: ${{ inputs.working_directory }}
         run: |
-          if [ ! -d "${{ inputs.working_directory }}/${{ inputs.values-file }}" ]
-            then touch "${working_directory}/${values_file}"
+          if [ ! -d "${{ inputs.values-file }}" ]
+            then touch "${{ inputs.values-file }}"
           fi
 
       - name: Run chart-releaser
