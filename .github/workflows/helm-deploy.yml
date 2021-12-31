@@ -49,8 +49,15 @@ jobs:
       - name: Run chart-releaser
         uses: deliverybot/helm@v1
         with:
-          release: ${{ inputs.app_name }}
-          namespace: ${{ env.OPENSHIFT_NAMESPACE }}
-          chart: ${{ inputs.working_directory }}
-          values: ${{ inputs.values }}
-          dry-run: true
+          release: 'nginx'
+          namespace: >-
+            ${{ inputs.openshift_license_plate }}-tools
+          chart: 'app'
+          token: '${{ github.token }}'
+          values: |
+            name: foobar
+#          release: ${{ inputs.app_name }}
+#          namespace: ${{ env.OPENSHIFT_NAMESPACE }}
+#          chart: ${{ inputs.working_directory }}
+#          values: ${{ inputs.values }}
+#          dry-run: true
