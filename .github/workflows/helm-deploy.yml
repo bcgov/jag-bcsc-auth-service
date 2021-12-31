@@ -70,7 +70,7 @@ jobs:
 
       - name: Run chart-releaser
         run: >-
-          eval helm install ${{ inputs.app_name }} ${{ inputs.working_directory }} 
+          eval helm upgrade --install ${{ inputs.app_name }} ${{ inputs.working_directory }} 
           --namespace ${{ env.OPENSHIFT_NAMESPACE }}
           -f "${{ inputs.working_directory }}/${{ inputs.values-file }}"
           ${{ env.SET_OVERRIDES }}
