@@ -55,7 +55,6 @@ jobs:
       - name: Run chart-releaser
         run: >-
           helm install ${{ inputs.app_name }} ${{ inputs.working_directory }} 
-          --set nameOverride=bcsc-auth-service-test
           --namespace ${{ env.OPENSHIFT_NAMESPACE }}
           -f values.yml
           --dry-run
