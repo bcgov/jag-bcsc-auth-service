@@ -48,7 +48,7 @@ jobs:
 
       - name: adjust values overrides
         run: >-
-          echo -n "${{ input.values }}" > values.yml
+          echo -n "${{ inputs.values }}" > values.yml
 
       - uses: azure/setup-helm@v1
 
