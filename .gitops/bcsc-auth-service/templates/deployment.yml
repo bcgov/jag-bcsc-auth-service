@@ -20,5 +20,32 @@ spec:
         - name: {{ include "bcsc-auth-service.name" . }}
           image: {{ include "bcsc-auth-service.registry" . }}:{{ .Values.image.tag | default .Chart.AppVersion }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if or .Values.envFrom.configMaps .Values.envFrom.secrets }}
+          envFrom:
+          {{- range .Values.envFrom.secrets }}
+            {{- if kindIs "string" . }}
+            - secretRef:
+                name: {{ . | quote }}
+            {{- else }}
+            - secretRef:
+                name: {{ .name | quote }}
+              {{- if .prefix }}
+              prefix: {{ .prefix | quote }}
+              {{- end }}
+            {{- end }}
+          {{- end }}
+          {{- range .Values.envFrom.configMaps }}
+            {{- if kindIs "string" . }}
+            - configMapRef:
+                name: {{ . | quote }}
+            {{- else }}
+            - configMapRef:
+                name: {{ .name | quote }}
+              {{- if .prefix }}
+              prefix: {{ .prefix | quote }}
+              {{- end }}
+            {{- end }}
+          {{- end }}
+          {{- end }}
       restartPolicy: Always
 

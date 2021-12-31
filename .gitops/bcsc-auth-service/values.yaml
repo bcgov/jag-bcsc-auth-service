@@ -10,3 +10,6 @@ image:
 
 labels:
 
+envFrom:
+  secrets: []
+  configMaps: []

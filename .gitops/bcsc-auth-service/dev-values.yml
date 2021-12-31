@@ -1,0 +1,20 @@
+nameOverride: bcsc-auth-service
+image:
+  tag: latest
+  pullPolicy: Always
+
+envFrom:
+  secrets:
+    - bcsc-auth-service-secrets
+    - bcsc-jwt-secret
+    - name: bcsc-client-return-url
+      prefix: BCSC_SCOPE_
+    - name: bcsc-client-return-url
+      prefix: BCSC_RETURN_URI_
+    - name: bcsc-client-scope
+      prefix: BCSC_SCOPE_
+    - name: bcsc-client-secret
+      prefix: BCSC_SECRET_
+    - name: bcsc-client-per-secret
+      prefix: BCSC_PER_SECRET_
+  configMaps: []

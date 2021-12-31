@@ -61,6 +61,9 @@ Create the name of the service account to use
 {{- end }}
 {{- end }}
 
+{{/*
+Manages the registry definition
+*/}}
 {{- define "bcsc-auth-service.registry" -}}
 {{- if .Values.image.openshiftRegistry }}
 {{- .Values.image.registry -}}/{{- .Release.Namespace -}}/{{- .Chart.Name -}}

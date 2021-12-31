@@ -14,6 +14,10 @@ on:
         type: string
         required: false
         default: ""
+      values-file:
+        type: string
+        required: false
+        default: "values.yml"
     secrets:
       openshift_server_url:
         required: true
@@ -28,6 +32,7 @@ jobs:
     environment: ${{ inputs.env }}
     steps:
       - uses: actions/checkout@v2
+      - uses: azure/setup-helm@v1
 
       - name: Printing Inputs
         run: |
@@ -35,6 +40,7 @@ jobs:
           echo "app_name: ${{ inputs.app_name }}"
           echo "working_directory: ${{ inputs.working_directory }}"
           echo "values: ${{ inputs.values }}"
+          echo "values-file: ${{ inputs.values-file }}"
 
       - name: Define namespace
         run: >-
@@ -48,13 +54,16 @@ jobs:
           namespace: ${{ env.OPENSHIFT_NAMESPACE }}
 
       - name: adjust values overrides
-        run: >-
-          echo -n "${{ inputs.values }}" > values.yml
-
-      - uses: azure/setup-helm@v1
+        run: |
+          overrides=''
+          for arg in ;do
+            overrides="overrides --set $arg"
+          done
+          echo SET_OVERRIDES="$overrides" | tee -a $GITHUB_ENV
 
       - name: Run chart-releaser
         run: >-
-          helm install ${{ inputs.app_name }} ${{ inputs.working_directory }} 
+          eval helm install ${{ inputs.app_name }} ${{ inputs.working_directory }} 
           --namespace ${{ env.OPENSHIFT_NAMESPACE }}
-          -f values.yml
+          -f {{ inputs.values-file }}.yml
+          ${{ env.SET_OVERRIDES }}
