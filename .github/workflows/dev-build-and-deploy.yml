@@ -33,11 +33,11 @@ jobs:
       dockerfile: 'multi-stage.Dockerfile'
     secrets:
       openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
-      openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
+      openshift_token: ${{ secrets.OPENSHIFT_BUILDER_TOKEN }}
       openshift_external_repository: ${{ secrets.OPENSHIFT_EXTERNAL_REPOSITORY }}
       openshift_license_plate: ${{ secrets.OPENSHIFT_LICENSE_PLATE }}
-      username: ${{ secrets.OPENSHIFT_EXTERNAL_SA_USERNAME }}
-      password: ${{ secrets.OPENSHIFT_EXTERNAL_SA_PASSWORD }}
+      username: ${{ secrets.OPENSHIFT_EXTERNAL_BUILDER_USERNAME }}
+      password: ${{ secrets.OPENSHIFT_EXTERNAL_BUILDER_PASSWORD }}
 
 #  deploy:
 #    name: Deploy onto Openshit
