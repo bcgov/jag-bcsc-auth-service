@@ -23,7 +23,7 @@ on:
         required: true
       openshift_token:
         required: true
-      openshift_license_plate:
+      openshift_namespace:
         required: true
 
 jobs:
@@ -42,16 +42,16 @@ jobs:
           echo "values: ${{ inputs.values }}"
           echo "values-file: ${{ inputs.working_directory }}"
 
-      - name: Define namespace
-        run: >-
-          echo OPENSHIFT_NAMESPACE="${{ secrets.openshift_license_plate }}-${{ inputs.env }}" | tee -a $GITHUB_ENV
+#      - name: Define namespace
+#        run: >-
+#          echo OPENSHIFT_NAMESPACE="${{ secrets.openshift_license_plate }}-${{ inputs.env }}" | tee -a $GITHUB_ENV
 
       - name: Log in to OpenShift
         uses: redhat-actions/oc-login@v1
         with:
           openshift_server_url: ${{ secrets.openshift_server_url }}
           openshift_token: ${{ secrets.openshift_token }}
-          namespace: ${{ env.OPENSHIFT_NAMESPACE }}
+          namespace: ${{ inputs.openshift_namespace }}
 
       - name: adjust values overrides
         run: |
@@ -71,7 +71,7 @@ jobs:
       - name: Run chart-releaser
         run: >-
           eval helm upgrade --install ${{ inputs.app_name }} ${{ inputs.working_directory }} 
-          --namespace ${{ env.OPENSHIFT_NAMESPACE }}
+          --namespace ${{ secrets.openshift_namespace }}
           -f "${{ inputs.working_directory }}/${{ inputs.values-file }}"
           ${{ env.SET_OVERRIDES }}
           --debug
