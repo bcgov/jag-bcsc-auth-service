@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: {{ include "bcsc-auth-service.name" . }}
-          image: {{ include "bcsc-auth-service.registry" . }}:{{ .Values.image.tag | default .Chart.AppVersion }}
+          image: {{ include "bcsc-auth-service.repositoryFullPath" . }}:{{ .Values.image.tag | default .Chart.AppVersion }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if or .Values.envFrom.configMaps .Values.envFrom.secrets }}
           envFrom:

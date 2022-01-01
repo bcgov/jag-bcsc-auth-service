@@ -62,12 +62,12 @@ Create the name of the service account to use
 {{- end }}
 
 {{/*
-Manages the registry definition
+Manages the repository definition
 */}}
-{{- define "bcsc-auth-service.registry" -}}
-{{- if .Values.image.openshiftRegistry }}
-{{- .Values.image.registry -}}/{{- .Release.Namespace -}}/{{- .Chart.Name -}}
+{{- define "bcsc-auth-service.repositoryFullPath" -}}
+{{- if .Values.image.registry }}
+{{- .Values.image.registry -}}/{{- .Values.image.repository -}}
 {{- else }}
-{{- .Values.image.registry -}}
+{{- .Values.image.repository -}}
 {{- end -}}
 {{- end -}}

@@ -2,8 +2,8 @@ nameOverride: ""
 fullnameOverride: ""
 
 image:
-  openshiftRegistry: true
-  registry: image-registry.apps.silver.devops.gov.bc.ca
+  registry: ""
+  repository: ""
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
