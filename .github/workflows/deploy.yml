@@ -23,8 +23,8 @@ jobs:
       app_name: 'bcsc-auth'
       values: |
         nameOverride=bcsc-auth-service-test
-        licensePlate=${{ secrets.OPENSHIFT_LICENSE_PLATE }}
-        registry=${{ secrets.OPENSHIFT_INTERNAL_REPOSITORY }}
+#        licensePlate=${{ secrets.OPENSHIFT_LICENSE_PLATE }}
+#        registry=${{ secrets.OPENSHIFT_INTERNAL_REPOSITORY }}
 #        repository=${{ secrets.OPENSHIFT_LICENSE_PLATE }}-tools/bcsc-auth
     secrets:
       openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
