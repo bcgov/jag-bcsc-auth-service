@@ -52,7 +52,6 @@ jobs:
       values-file: 'dev-values.yml'
       values: |
         nameOverride=bcsc-auth-service-test
-        licensePlate=${{ secrets.OPENSHIFT_LICENSE_PLATE }}
         registry=${{ secrets.OPENSHIFT_INTERNAL_REPOSITORY }}
         repository=${{ secrets.OPENSHIFT_LICENSE_PLATE }}-tools/bcsc-auth
     secrets:
