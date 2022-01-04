@@ -26,3 +26,9 @@ resources: {}
   # requests:
   #   cpu: 100m
 #   memory: 128Mi
+
+readinessProbe: {}
+livenessProbe: {}
+startupProbe: {}
+
+terminationMessagePath: /dev/termination-log

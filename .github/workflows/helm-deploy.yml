@@ -7,9 +7,6 @@ on:
       app_name:
         type: string
         required: true
-      app_version:
-        type: string
-        required: true
       working_directory:
         type: string
         required: true
@@ -40,7 +37,6 @@ jobs:
         run: |
           echo "env: ${{ inputs.env }}"
           echo "app_name: ${{ inputs.app_name }}"
-          echo "app_version: ${{ inputs.app_version }}"
           echo "working_directory: ${{ inputs.working_directory }}"
           echo "values: ${{ inputs.values }}"
           echo "values-file: ${{ inputs.working_directory }}"
@@ -78,5 +74,4 @@ jobs:
           --namespace ${{ secrets.openshift_namespace }}
           -f "${{ inputs.working_directory }}/${{ inputs.values-file }}"
           ${{ env.SET_OVERRIDES }}
-          --set image.tag=${{ inputs.app_version }}
           --debug
