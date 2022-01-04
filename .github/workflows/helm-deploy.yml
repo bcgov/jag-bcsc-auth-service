@@ -59,7 +59,8 @@ jobs:
       - name: adjust values overrides
         run: |
           overrides=''
-          for arg in ${{ secrets.values }};do
+          _arguments="${{ secrets.values }}"
+          for arg in $_arguments;do
             overrides="$overrides --set $arg"
           done
           echo SET_OVERRIDES="$overrides" | tee -a $GITHUB_ENV
