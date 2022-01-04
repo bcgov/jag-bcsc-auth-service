@@ -21,11 +21,11 @@ jobs:
       env: ${{ inputs.env }}
       working_directory: '.gitops/bcsc-auth-service'
       app_name: 'bcsc-auth'
-      values: |
-        nameOverride=bcsc-auth-service-test
-        licensePlate=${{ secrets.OPENSHIFT_LICENSE_PLATE }}
-        repository=${{ secrets.OPENSHIFT_LICENSE_PLATE }}-tools/bcsc-auth
     secrets:
       openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
       openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
       openshift_namespace: "${{ secrets.OPENSHIFT_LICENSE_PLATE }}-${{ inputs.env }}"
+      values: |
+        nameOverride=bcsc-auth-service-test
+        licensePlate=${{ secrets.OPENSHIFT_LICENSE_PLATE }}
+        repository=${{ secrets.OPENSHIFT_LICENSE_PLATE }}-tools/bcsc-auth

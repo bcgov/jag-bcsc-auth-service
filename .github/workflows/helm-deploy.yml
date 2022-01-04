@@ -10,10 +10,6 @@ on:
       working_directory:
         type: string
         required: true
-      values:
-        type: string
-        required: false
-        default: ""
       values-file:
         type: string
         required: false
@@ -25,6 +21,9 @@ on:
         required: true
       openshift_namespace:
         required: true
+      values:
+        required: false
+        description: Override the inputs value
 
 jobs:
   deploy:
@@ -56,7 +55,7 @@ jobs:
       - name: adjust values overrides
         run: |
           overrides=''
-          for arg in "${{ inputs.values }}";do
+          for arg in "${{ secrets.values }}";do
             overrides="$overrides --set $arg"
           done
           echo SET_OVERRIDES="$overrides" | tee -a $GITHUB_ENV
