@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "bcsc-auth-service.labels" . | nindent 4 }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: {{ include "bcsc-auth-service.name" . }}
@@ -47,5 +47,7 @@ spec:
             {{- end }}
           {{- end }}
           {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
       restartPolicy: Always
 
