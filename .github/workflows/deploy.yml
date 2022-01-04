@@ -29,4 +29,5 @@ jobs:
       values: |
         nameOverride=bcsc-auth-service-test
         licensePlate=${{ secrets.OPENSHIFT_LICENSE_PLATE }}
-        repository=${{ secrets.OPENSHIFT_LICENSE_PLATE }}-tools/bcsc-auth
+        image.registry=${{ secrets.OPENSHIFT_INTERNAL_REPOSITORY }}
+        image.repository=${{ secrets.OPENSHIFT_LICENSE_PLATE }}-tools/bcsc-auth

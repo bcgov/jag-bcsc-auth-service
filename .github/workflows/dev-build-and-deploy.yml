@@ -42,14 +42,13 @@ jobs:
   deploy:
     name: Deploy onto Openshit
     needs:
-    - app-version
     - build-image
     uses: bcgov/jag-bcsc-auth-service/.github/workflows/helm-deploy.yml@main
     with:
       env: 'dev'
       working_directory: '.gitops/bcsc-auth-service'
       app_name: 'bcsc-auth'
-      app_version: "${{ needs.app-version.outputs.app-version }}"
+      app_version: 'latest'
       values-file: 'dev-values.yml'
     secrets:
       openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
@@ -57,5 +56,5 @@ jobs:
       openshift_namespace: "${{ secrets.OPENSHIFT_LICENSE_PLATE }}-dev"
       values: |
         nameOverride=bcsc-auth-service-test
-        registry=${{ secrets.OPENSHIFT_INTERNAL_REPOSITORY }}
-        repository=${{ secrets.OPENSHIFT_LICENSE_PLATE }}-tools/bcsc-auth
+        image.registry=${{ secrets.OPENSHIFT_INTERNAL_REPOSITORY }}
+        image.repository=${{ secrets.OPENSHIFT_LICENSE_PLATE }}-tools/bcsc-auth
