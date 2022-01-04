@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>ca.bc.gov.open</groupId>
 	<artifactId>bcsc-auth</artifactId>
-	<version>1.0.3</version>
+	<version>1.0.4</version>
 	<name>bcsc-auth</name>
 	<description>BC Services Card Authentication</description>
 
@@ -20,7 +20,7 @@
 		<nimbus.oauth.version>7.0.3</nimbus.oauth.version>
 		<jjwt.version>0.9.1</jjwt.version>
 		<javax.mail.version>1.4</javax.mail.version>
-		<log4j2.version>2.17.0</log4j2.version>
+		<log4j2.version>2.17.1</log4j2.version>
 	</properties>
 
 	<dependencies>
@@ -130,7 +130,7 @@
 				<dependency>
 					<groupId>com.splunk.logging</groupId>
 					<artifactId>splunk-library-javalogging</artifactId>
-					<version>1.11.3</version>
+					<version>1.11.4</version>
 				</dependency>
 			</dependencies>
 		</profile>
