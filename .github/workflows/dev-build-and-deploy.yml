@@ -49,6 +49,7 @@ jobs:
       env: 'dev'
       working_directory: '.gitops/bcsc-auth-service'
       app_name: 'bcsc-auth'
+      app_version: "${{ needs.app-version.outputs.app-version }}"
       values-file: 'dev-values.yml'
     secrets:
       openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
