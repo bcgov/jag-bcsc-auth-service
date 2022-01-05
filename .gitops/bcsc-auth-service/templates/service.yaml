@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "bcsc-auth-service.name" . }}-service
+  name: {{ include "bcsc-auth-service.name" . }}-svc
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "bcsc-auth-service.labels" . | nindent 4 }}
 spec:
   selector:
-    {{- include "bcsc-auth-service.selectorLabels" . | nindent 4 }}
+    app: {{ include "bcsc-auth-service.name" . }}
   ports:
     {{- toYaml .Values.service.ports | nindent 6 }}
   type: {{ .Values.service.type }}
