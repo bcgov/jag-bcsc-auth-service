@@ -57,3 +57,4 @@ jobs:
         nameOverride=bcsc-auth-service-test
         image.registry=${{ secrets.OPENSHIFT_INTERNAL_REPOSITORY }}
         image.repository=${{ secrets.OPENSHIFT_LICENSE_PLATE }}-tools/bcsc-auth
+        route.host=bcsc-auth-service-test-${{ secrets.OPENSHIFT_LICENSE_PLATE }}-dev.${{ secrets.OPENSHIFT_SILVER_ROUTE_URL }}

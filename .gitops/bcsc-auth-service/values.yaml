@@ -35,3 +35,12 @@ service:
     - name: web
       port: 80
       targetPort: 8080
+
+route:
+  enabled: false
+  host: ""
+  targetPort: web
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: None
+  wildcardPolicy: None

@@ -1,0 +1,24 @@
+{{- if .Values.route.enabled -}}
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: {{ include "bcsc-auth-service.name" . }}-route
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "bcsc-auth-service.labels" . | nindent 4 }}
+spec:
+  {{- if .Values.route.host }}
+  host: {{ .Values.route.host }}
+  {{- end }}
+  to:
+    kind: Service
+    name: {{ include "bcsc-auth-service.name" . }}-service
+    weight: 100
+  port:
+    targetPort: {{ .Values.route.targetPort }}
+  {{- if .Values.route.tls }}
+  tls:
+    {{- toYaml .Values.route.tls | nindent 4 }}
+  {{- end}}
+  wildcardPolicy: {{ .Values.route.wildcardPolicy }}
+{{- end -}}
