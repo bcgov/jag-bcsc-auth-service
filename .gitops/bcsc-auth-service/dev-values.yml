@@ -52,3 +52,6 @@ livenessProbe:
 ports:
   - name: http
     containerPort: 80
+
+route:
+  enabled: true

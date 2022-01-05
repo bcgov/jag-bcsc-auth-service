@@ -21,6 +21,7 @@ jobs:
       env: ${{ github.event.inputs.env }}
       working_directory: '.gitops/bcsc-auth-service'
       app_name: 'bcsc-auth'
+      values-file: ${{ github.event.inputs.env }}-values.yml
     secrets:
       openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
       openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
