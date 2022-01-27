@@ -16,7 +16,7 @@ on:
 jobs:
   deploy:
     name: Deploy onto Openshit
-    uses: bcgov/jag-bcsc-auth-service/.github/workflows/helm-deploy.yml@main
+    uses: SierraSystems/reusable-workflows/.github/workflows/helm-deploy.yml@main
     with:
       env: ${{ github.event.inputs.env }}
       working_directory: '.gitops/bcsc-auth-service'
