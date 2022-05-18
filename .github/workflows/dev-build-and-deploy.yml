@@ -27,7 +27,7 @@ jobs:
     uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-and-push-image.yml@main
     with:
       env: 'tools'
-      app_name: 'bcsc-auth-service'
+      app_name: 'bcsc-auth'
       app_version: "${{ needs.app-version.outputs.app-version }}"
       working_directory: 'src/bcsc-auth'
       dockerfile: 'multi-stage.Dockerfile'
@@ -47,7 +47,7 @@ jobs:
     with:
       env: 'dev'
       working_directory: '.gitops/bcsc-auth-service'
-      app_name: 'bcsc-auth-service'
+      app_name: 'bcsc-auth'
       values-file: 'dev-values.yml'
     secrets:
       openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
