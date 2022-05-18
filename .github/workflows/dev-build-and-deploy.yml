@@ -10,12 +10,12 @@ on:
 
 jobs:
   unit-test:
-    uses: gpoleze/reusable-workflows/.github/workflows/java-unit-tests.yml@main
+    uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@main
     with:
       working_directory: 'src/bcsc-auth'
 
   app-version:
-    uses: bcgov/jag-bcsc-auth-service/.github/workflows/java-maven-app-version.yml@main
+    uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
     with:
       working_directory: 'src/bcsc-auth'
 
@@ -24,7 +24,7 @@ jobs:
     needs:
     - unit-test
     - app-version
-    uses: bcgov/jag-bcsc-auth-service/.github/workflows/docker-build-and-push-image.yml@main
+    uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-and-push-image.yml@main
     with:
       env: 'tools'
       app_name: 'bcsc-auth'
@@ -43,7 +43,7 @@ jobs:
     name: Deploy onto Openshit
     needs:
     - build-image
-    uses: bcgov/jag-bcsc-auth-service/.github/workflows/helm-deploy.yml@main
+    uses: SierraSystems/reusable-workflows/.github/workflows/helm-deploy.yml@main
     with:
       env: 'dev'
       working_directory: '.gitops/bcsc-auth-service'
