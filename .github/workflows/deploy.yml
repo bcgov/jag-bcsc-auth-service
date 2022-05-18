@@ -20,7 +20,7 @@ jobs:
     with:
       env: ${{ github.event.inputs.env }}
       working_directory: '.gitops/bcsc-auth-service'
-      app_name: 'bcsc-auth'
+      app_name: 'bcsc-auth-service'
       values-file: ${{ github.event.inputs.env }}-values.yml
     secrets:
       openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
