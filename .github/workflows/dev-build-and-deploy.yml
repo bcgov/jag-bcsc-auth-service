@@ -10,7 +10,7 @@ on:
 
 jobs:
   unit-test:
-    uses: gpoleze/reusable-workflows/.github/workflows/java-unit-tests.yml@main
+    uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@main
     with:
       working_directory: 'src/bcsc-auth'
 
