@@ -4,9 +4,7 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:
-    branches:
-      - main
+  workflow_dispatch: {}
 
 jobs:
   unit-test:
@@ -46,9 +44,9 @@ jobs:
     uses: SierraSystems/reusable-workflows/.github/workflows/helm-deploy.yml@main
     with:
       env: 'dev'
-      working_directory: '.gitops/bcsc-auth-service'
+      working_directory: '.gitops/helm-charts/bcsc-auth-service'
       app_name: 'bcsc-auth'
-      values-file: 'dev-values.yml'
+      values-file: '../dev-values.yml'
     secrets:
       openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
       openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
