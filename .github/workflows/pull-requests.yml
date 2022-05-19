@@ -11,5 +11,6 @@ jobs:
     uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-image.yml@feature/docker-build-local
     with:
       app_name: 'bcsc-auth'
+      app_version: "*"
       working_directory: 'src/bcsc-auth'
       dockerfile: 'multi-stage.Dockerfile'
