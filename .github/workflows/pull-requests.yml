@@ -8,7 +8,7 @@ jobs:
       working_directory: 'src/bcsc-auth'
 
   build-image:
-    uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-image.yml@feature/docker-build-local
+    uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-image.yml@main
     with:
       app_name: 'bcsc-auth'
       app_version: "*"
