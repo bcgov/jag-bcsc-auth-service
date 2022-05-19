@@ -1,0 +1,16 @@
+on:
+  - pull_request
+
+jobs:
+  unit-test:
+    uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@main
+    with:
+      working_directory: 'src/bcsc-auth'
+
+  build-image:
+    uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-image.yml@main
+    with:
+      app_name: 'bcsc-auth'
+      app_version: "*"
+      working_directory: 'src/bcsc-auth'
+      dockerfile: 'multi-stage.Dockerfile'

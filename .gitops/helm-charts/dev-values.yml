@@ -1,7 +1,7 @@
 nameOverride: bcsc-auth-service
 environment: dev
 image:
-  tag: latest
+  tag: dev
   pullPolicy: Always
 
 envFrom:
@@ -20,12 +20,12 @@ envFrom:
   configMaps: []
 
 resources:
- requests:
-   cpu: 100m
-   memory: 256Mi
- limits:
-   cpu: 250m
-   memory: 1Gi
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 250m
+    memory: 1Gi
 
 readinessProbe:
   httpGet:
