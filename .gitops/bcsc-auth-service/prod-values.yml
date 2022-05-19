@@ -1,0 +1,57 @@
+nameOverride: bcsc-auth-service
+environment: dev
+image:
+  tag: latest
+  pullPolicy: Always
+
+envFrom:
+  secrets:
+    - bcsc-auth-service-secrets
+    - bcsc-jwt-secret
+    - bcsc-oauth-secret
+    - name: bcsc-client-return-url
+      prefix: BCSC_RETURN_URI_
+    - name: bcsc-client-scope
+      prefix: BCSC_SCOPE_
+    - name: bcsc-client-secret
+      prefix: BCSC_SECRET_
+    - name: bcsc-client-per-secret
+      prefix: BCSC_PER_SECRET_
+  configMaps: []
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 250m
+    memory: 1Gi
+
+readinessProbe:
+  httpGet:
+    path: oauth/actuator/health
+    port: 8080
+    scheme: HTTP
+  initialDelaySeconds: 70
+  timeoutSeconds: 10
+  periodSeconds: 10
+  successThreshold: 1
+  failureThreshold: 3
+
+livenessProbe:
+  httpGet:
+    path: oauth/actuator/health
+    port: 8080
+    scheme: HTTP
+  initialDelaySeconds: 120
+  timeoutSeconds: 10
+  periodSeconds: 10
+  successThreshold: 1
+  failureThreshold: 3
+
+ports:
+  - name: http
+    containerPort: 80
+
+route:
+  enabled: true

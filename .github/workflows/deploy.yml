@@ -15,7 +15,7 @@ on:
 
 jobs:
   deploy:
-    name: Deploy onto Openshit
+    name: Deploy onto Openshift
     uses: SierraSystems/reusable-workflows/.github/workflows/helm-deploy.yml@main
     with:
       env: ${{ github.event.inputs.env }}
@@ -27,8 +27,7 @@ jobs:
       openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
       openshift_namespace: "${{ secrets.OPENSHIFT_LICENSE_PLATE }}-${{ github.event.inputs.env }}"
       values: |
-        nameOverride=bcsc-auth-service-test
         licensePlate=${{ secrets.OPENSHIFT_LICENSE_PLATE }}
         image.registry=${{ secrets.OPENSHIFT_INTERNAL_REPOSITORY }}
         image.repository=${{ secrets.OPENSHIFT_LICENSE_PLATE }}-tools/bcsc-auth
-        route.host=bcsc-auth-service-test-${{ secrets.OPENSHIFT_LICENSE_PLATE }}-${{ github.event.inputs.env }}.${{ secrets.OPENSHIFT_SILVER_ROUTE_URL }}
+        route.host=bcsc-auth-service-${{ secrets.OPENSHIFT_LICENSE_PLATE }}-${{ github.event.inputs.env }}.${{ secrets.OPENSHIFT_SILVER_ROUTE_URL }}
