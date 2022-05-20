@@ -1,7 +1,7 @@
 nameOverride: bcsc-auth-service
 environment: dev
 image:
-  tag: dev
+  tag: latest
   pullPolicy: Always
 
 envFrom:
