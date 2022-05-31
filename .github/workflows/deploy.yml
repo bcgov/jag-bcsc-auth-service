@@ -19,7 +19,7 @@ jobs:
     uses: SierraSystems/reusable-workflows/.github/workflows/helm-deploy.yml@main
     with:
       env: ${{ github.event.inputs.env }}
-      working_directory: '.gitops/bcsc-auth-service'
+      working_directory: '.gitops/helm-charts/bcsc-auth-service'
       app_name: 'bcsc-auth'
       values-file: "../${{ github.event.inputs.env }}-values.yml"
     secrets:
