@@ -30,11 +30,15 @@ public class JWTAuthorizationFilter  extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         try {
+            if (request.getRequestURI().contains("/oauth/actuator/health")) {
+                chain.doFilter(request, response);
+                return;
+            }
 			if (checkJWTToken(request)) {
 				jwtLogger.debug("JWT found in header.");
 				Claims claims = validateToken(request);
 				if (claims.get("clientId") != null) {
-					oauthProperties.setClientId((String) claims.get("clientId"));
+					oauthProperties.setClientId(claims.get("clientId").toString());
 					jwtLogger.debug("JWT passed basic validation checks.");
 					UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
 							claims.getSubject(), null, null);
@@ -43,8 +47,7 @@ public class JWTAuthorizationFilter  extends OncePerRequestFilter {
 					throw new AuthenticationCredentialsNotFoundException("Client Id not found");
 				}
 			} else {
-				oauthProperties.setClientId(null);
-				SecurityContextHolder.clearContext();
+                throw new AuthenticationCredentialsNotFoundException("Jwt not found");
 			}
 			chain.doFilter(request, response);
 		} catch (Exception e) {
