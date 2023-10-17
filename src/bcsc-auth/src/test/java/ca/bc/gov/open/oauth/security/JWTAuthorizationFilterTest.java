@@ -5,11 +5,11 @@ import static org.mockito.Mockito.mock;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,9 +32,7 @@ import ca.bc.gov.open.oauth.service.JWTValidationServiceImpl;
  */
 class JWTAuthorizationFilterTest {
 
-	private final String jwtSuccess = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
-			+ "eyJhdXRob3JpdGllcyI6WyJST0xFIl0sImNsaWVudElkIjoidGVzdCIsImlhdCI6MTU4ODYzMDM5MCwiZXhwIjo5OTk5OTk5OTk5fQ."
-			+ "RB_s96R_bW_GkhFPBcERC2AEd0I5JKeN8g6X3NYpOME";
+	private final String jwtSuccess = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpdGllcyI6WyJST0xFIl0sImNsaWVudElkIjoidGVzdCIsImlhdCI6MTU4ODYzMDM5MCwiZXhwIjo5OTk5OTk5OTk5fQ.DSAweG0sss2YADnFGngEApb76n9keqHb--cJyfubxD4";
 	private final String jwtRunTimeError = "eyJhbGciOiJIUzI1NiJ9."
 			+ "eyJoZWFkZXIiOiJwcmVmaXgiLCJhdXRob3JpdGllcyI6InJvbGUifQ." + "Xyh5YRGNLdaPfxCUak6dokgoWb9EA51w9LslqcndWjU";
 	private final String jwtSignError = "eyJhbGciOiJIUzI1NiJ9."
@@ -54,7 +52,7 @@ class JWTAuthorizationFilterTest {
 		MockitoAnnotations.initMocks(this);
 		Mockito.when(oauthProps.getJwtHeader()).thenReturn("header");
 		Mockito.when(oauthProps.getJwtPrefix()).thenReturn("prefix");
-		Mockito.when(oauthProps.getJwtSecret()).thenReturn("secret");
+		Mockito.when(oauthProps.getJwtSecret()).thenReturn("this-is-very-long-256-bit-secret");
 	}
 
 	@DisplayName("Success - doFilterInternal jwt filter")

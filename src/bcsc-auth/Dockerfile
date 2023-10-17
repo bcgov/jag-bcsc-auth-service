@@ -1,4 +1,4 @@
-FROM openjdk:8-jdk-slim
+FROM eclipse-temurin:17-jre-alpine
 
 ARG APP_NAME
 ARG APP_VERSION
