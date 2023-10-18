@@ -13,13 +13,13 @@
 					"type": "basic",
 					"basic": [
 						{
-							"key": "password",
-							"value": "password",
+							"key": "username",
+							"value": "{{user}}",
 							"type": "string"
 						},
 						{
-							"key": "username",
-							"value": "user",
+							"key": "password",
+							"value": "{{password}}",
 							"type": "string"
 						}
 					]
@@ -100,13 +100,13 @@
 					"type": "basic",
 					"basic": [
 						{
-							"key": "username",
-							"value": "user",
+							"key": "password",
+							"value": "{{password}}",
 							"type": "string"
 						},
 						{
-							"key": "password",
-							"value": "password",
+							"key": "username",
+							"value": "{{user}}",
 							"type": "string"
 						}
 					]
