@@ -32,7 +32,9 @@ import ca.bc.gov.open.oauth.service.JWTValidationServiceImpl;
  */
 class JWTAuthorizationFilterTest {
 
-	private final String jwtSuccess = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpdGllcyI6WyJST0xFIl0sImNsaWVudElkIjoidGVzdCIsImlhdCI6MTU4ODYzMDM5MCwiZXhwIjo5OTk5OTk5OTk5fQ.DSAweG0sss2YADnFGngEApb76n9keqHb--cJyfubxD4";
+	private final String jwtSuccess = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
+			+ "eyJhdXRob3JpdGllcyI6WyJST0xFIl0sImNsaWVudElkIjoidGVzdCIsImlhdCI6MTU4ODYzMDM5MCwiZXhwIjo5OTk5OTk5OTk5fQ."
+			+ "DSAweG0sss2YADnFGngEApb76n9keqHb--cJyfubxD4";
 	private final String jwtRunTimeError = "eyJhbGciOiJIUzI1NiJ9."
 			+ "eyJoZWFkZXIiOiJwcmVmaXgiLCJhdXRob3JpdGllcyI6InJvbGUifQ." + "Xyh5YRGNLdaPfxCUak6dokgoWb9EA51w9LslqcndWjU";
 	private final String jwtSignError = "eyJhbGciOiJIUzI1NiJ9."
