@@ -11,11 +11,13 @@ jobs:
     uses: SierraSystems/reusable-workflows/.github/workflows/java-unit-tests.yml@main
     with:
       working_directory: 'src/bcsc-auth'
+      java_version: 17
 
   app-version:
     uses: SierraSystems/reusable-workflows/.github/workflows/java-maven-app-version.yml@main
     with:
       working_directory: 'src/bcsc-auth'
+      java_version: 17
 
   build-image:
     name: Build image and push it to OpenShift
