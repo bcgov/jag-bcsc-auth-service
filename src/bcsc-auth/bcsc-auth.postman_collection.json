@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "9c5d335c-9a2e-4fb1-9d6e-ca8fce2a261e",
+		"_postman_id": "d1b27e92-2aff-4d27-8d6d-3759b11de74d",
 		"name": "bcsc-auth",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7643810"
 	},
 	"item": [
 		{
@@ -12,13 +13,13 @@
 					"type": "basic",
 					"basic": [
 						{
-							"key": "password",
-							"value": "password",
+							"key": "username",
+							"value": "{{user}}",
 							"type": "string"
 						},
 						{
-							"key": "username",
-							"value": "user",
+							"key": "password",
+							"value": "{{password}}",
 							"type": "string"
 						}
 					]
@@ -27,16 +28,18 @@
 				"header": [
 					{
 						"key": "Authorization2",
-						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpdGllcyI6WyJST0xFIl0sImNsaWVudElkIjoidXJuLmNhLmJjLmdvdi5qdXN0aWNlLmVjcmMuZGV2IiwiaWF0IjoxNTg4NjMwMzkwLCJleHAiOjk5OTk5OTk5OTl9.rnXGWEjNHIkBmrPmgqnx1qdf0ohWQxDTe5uLwfRD9r4",
+						"value": "Bearer {{jwt}}",
 						"type": "text"
 					}
 				],
 				"url": {
-					"raw": "localhost:8083/oauth/initiateBCSCAuthentication?returnUrl=http://localhost:3000/criminalrecordcheck/applicationform",
+					"raw": "https://bcsc-auth-service-9041f4-dev.apps.silver.devops.gov.bc.ca/oauth/initiateBCSCAuthentication?returnUrl=https://dev.justice.gov.bc.ca/criminalrecordcheck/applicationform",
 					"protocol": "https",
 					"host": [
-						"bcsc-auth-service-pqyiwk-dev",
-						"pathfinder",
+						"bcsc-auth-service-9041f4-dev",
+						"apps",
+						"silver",
+						"devops",
 						"gov",
 						"bc",
 						"ca"
@@ -48,13 +51,149 @@
 					"query": [
 						{
 							"key": "returnUrl",
-							"value": "http://localhost:3000/criminalrecordcheck/applicationform"
+							"value": "https://dev.justice.gov.bc.ca/criminalrecordcheck/applicationform"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "actuator",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization2",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpdGllcyI6WyJST0xFIl0sImNsaWVudElkIjoidXJuLmNhLmJjLmdvdi5qdXN0aWNlLmVjcmMuZGV2IiwiaWF0IjoxNTg4NjMwMzkwLCJleHAiOjk5OTk5OTk5OTl9.rnXGWEjNHIkBmrPmgqnx1qdf0ohWQxDTe5uLwfRD9r4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://bcsc-auth-service-9041f4-dev.apps.silver.devops.gov.bc.ca/oauth/actuator/health",
+					"protocol": "https",
+					"host": [
+						"bcsc-auth-service-9041f4-dev",
+						"apps",
+						"silver",
+						"devops",
+						"gov",
+						"bc",
+						"ca"
+					],
+					"path": [
+						"oauth",
+						"actuator",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Bcsc-auth LOCAL(docker-compose up)",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{user}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization2",
+						"value": "Bearer {{jwt}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8083/oauth/initiateBCSCAuthentication?returnUrl=https://dev.justice.gov.bc.ca/criminalrecordcheck/applicationform",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"oauth",
+						"initiateBCSCAuthentication"
+					],
+					"query": [
+						{
+							"key": "returnUrl",
+							"value": "https://dev.justice.gov.bc.ca/criminalrecordcheck/applicationform"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "actuator LOCAL(docker-compose up)",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization2",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpdGllcyI6WyJST0xFIl0sImNsaWVudElkIjoidXJuLmNhLmJjLmdvdi5qdXN0aWNlLmVjcmMuZGV2IiwiaWF0IjoxNTg4NjMwMzkwLCJleHAiOjk5OTk5OTk5OTl9.rnXGWEjNHIkBmrPmgqnx1qdf0ohWQxDTe5uLwfRD9r4",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8083/oauth/actuator/health",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"oauth",
+						"actuator",
+						"health"
 					]
 				}
 			},
 			"response": []
 		}
 	],
-	"protocolProfileBehavior": {}
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "jwt",
+			"value": "",
+			"type": "string"
+		}
+	]
 }

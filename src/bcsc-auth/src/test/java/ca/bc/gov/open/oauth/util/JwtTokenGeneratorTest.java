@@ -23,7 +23,7 @@ class JwtTokenGeneratorTest {
 	@Test
 	void testSuccess() {
 
-		String result = JwtTokenGenerator.generateFEAccessToken(new JSONObject(), "abc", "secret", 0, "role");
+		String result = JwtTokenGenerator.generateFEAccessToken(new JSONObject(), "abc", "this-is-very-long-256-bit-secret", 0, "role");
 		Assertions.assertTrue(result.length() > 0);
 	}
 

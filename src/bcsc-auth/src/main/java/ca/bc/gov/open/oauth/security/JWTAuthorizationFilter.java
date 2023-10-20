@@ -2,10 +2,10 @@ package ca.bc.gov.open.oauth.security;
 
 import java.io.IOException;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +59,7 @@ public class JWTAuthorizationFilter  extends OncePerRequestFilter {
 
     private Claims validateToken(HttpServletRequest request) {
         String jwtToken = request.getHeader(oauthProperties.getJwtHeader()).replace(oauthProperties.getJwtPrefix(), "").trim();
-        return Jwts.parser().setSigningKey(oauthProperties.getJwtSecret().getBytes()).parseClaimsJws(jwtToken).getBody();
+        return Jwts.parserBuilder().setSigningKey(oauthProperties.getJwtSecret().getBytes()).build().parseClaimsJws(jwtToken).getBody();
     }
 
     private boolean checkJWTToken(HttpServletRequest request) {

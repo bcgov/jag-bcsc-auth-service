@@ -6,9 +6,12 @@ services:
   bcscauthapi:
     build:
       context: .
+      dockerfile: ./multi-stage.Dockerfile
       args:
         - MVN_PROFILES=bcsc-auth
         - BCSC_AUTH_SERVICE_NAME=bcsc-auth
+        - APP_NAME=
+        - APP_VERSION=
     environment:
       - spring_profiles_active=cloud
       - BCSC_OAUTH_BASIC_PASSWORD=${BCSC_OAUTH_BASIC_PASSWORD}
