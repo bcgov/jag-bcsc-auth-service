@@ -86,7 +86,7 @@ jobs:
         if: ${{ (inputs.image_tags == '') }}
         run: |
           tags=$(cat << EOF
-          ${{ secrets.openshift_external_repository }}/${{ env.OPENSHIFT_NAMESPACE }}/${{ inputs.app_name }}:latest
+          ${{ secrets.openshift_external_repository }}/${{ env.OPENSHIFT_NAMESPACE }}/${{ inputs.app_name }}:latest , 
           ${{ secrets.openshift_external_repository }}/${{ env.OPENSHIFT_NAMESPACE }}/${{ inputs.app_name }}:${{ inputs.app_version }}
           EOF
           )
