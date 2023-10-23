@@ -24,7 +24,7 @@ jobs:
     needs:
     - unit-test
     - app-version
-    uses: SierraSystems/reusable-workflows/.github/workflows/docker-build-and-push-image.yml@main
+    uses: ./.github/workflows/docker-build-and-push-image.yml
     with:
       env: 'tools'
       app_name: 'bcsc-auth'
