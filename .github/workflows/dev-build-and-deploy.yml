@@ -51,7 +51,7 @@ jobs:
       values-file: '../dev-values.yml'
     secrets:
       openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
-      openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
+      openshift_token: ${{ secrets.OPENSHIFT_BUILDER_TOKEN  }}
       openshift_namespace: "${{ secrets.OPENSHIFT_LICENSE_PLATE }}-dev"
       values: |
         image.registry=${{ secrets.OPENSHIFT_INTERNAL_REPOSITORY }}
