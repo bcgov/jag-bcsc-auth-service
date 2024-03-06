@@ -124,9 +124,9 @@
 			<artifactId>logback-access</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>net.rakugakibox.spring.boot</groupId>
+			<groupId>dev.akkinoc.spring.boot</groupId>
 			<artifactId>logback-access-spring-boot-starter</artifactId>
-			<version>2.7.1</version>
+			<version>4.1.1</version>
 		</dependency>
 	</dependencies>
 	<profiles>
