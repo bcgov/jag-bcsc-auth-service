@@ -1,4 +1,4 @@
-[![Lifecycle:Stable](https://img.shields.io/badge/Lifecycle-Stable-97ca00)](<Redirect-URL>)
+[![Lifecycle:Retired](https://img.shields.io/badge/Lifecycle-Retired-d45500)]([<Redirect-URL>](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md))
 
 # jag-bcsc-auth-service
 BCSC Auth service (eCRC microservice) by Ministry of Justice
